@@ -1,12 +1,19 @@
 h1 IEC 60751 Measurements
 
-table
-  thead
-    tr
-      th Temperature
-      th Resistance
-      th Date
-      th Time
-      th Actions
-    tbody
-      = render @recent_measurements
+- if @recent_measurements.empty?
+  p No measurements found.
+  
+- else
+  = link_to 'New Measurement', new_iec60751_measurement_path
+  table
+    thead
+      tr
+        th Date
+        th Time
+        th Temperature
+        th Resistance
+        th Actions
+      tbody
+        = render @recent_measurements
+
+= link_to 'New Measurement', new_iec60751_measurement_path

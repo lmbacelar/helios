@@ -12,6 +12,10 @@ Given /^I am on the page for the last "(.*?)"$/  do |resource|
   visit "/#{table_name_from resource}/#{last_id_from resource}"
 end
 
+Given /^I have no "(.*?)"$/ do |resource|
+  klass_from(resource).delete_all
+end
+
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   fill_in(field, with: value)
@@ -38,6 +42,11 @@ Then /^(?:|I )should be on the "(.+)" page$/ do |resource|
   expect(current_path).to eq target_path
 end
 
+Then /^I should be on the new "(.*?)" page$/  do |resource|
+  target_path = "/#{table_name_from resource}/new"
+  expect(current_path).to eq target_path
+end
+
 Then /^(?:|I )should be on the page of the last "(.+)"$/ do |resource|
   target_path = "/#{table_name_from resource}/#{last_id_from resource}"
   expect(current_path).to eq target_path
@@ -61,4 +70,12 @@ end
 
 Then /^"(.*?)" should appear before "(.*?)"$/ do |text1, text2|
   expect(page.body).to match /#{text1}.*#{text2}/m
+end
+
+Then /^I should see one "(.*?)" link$/ do |link_text|
+  expect(page.body).to have_css('a', text: link_text, count: 1)
+end
+
+Then /^I should see (\d+) "(.*?)" links$/ do |count, link_text|
+  expect(page.body).to have_css('a', text: link_text, count: count)
 end
