@@ -1,0 +1,22 @@
+- present @measurement do |m|
+  h1 IEC 60751 Measurement
+  section
+    dl
+      dt Temperature
+      dd= m.temperature
+      dt Resistance
+      dd= m.resistance
+      dt Date
+      dd= m.date
+      dt Time
+      dd= m.time
+  section
+    dl
+      dt R0
+      dd= m.r0
+      dt A
+      dd= m.a
+      dt B
+      dd= m.b
+      dt C
+      dd= m.c

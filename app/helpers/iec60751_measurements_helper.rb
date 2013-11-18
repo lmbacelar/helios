@@ -1,0 +1,2 @@
+module Iec60751MeasurementsHelper
+end

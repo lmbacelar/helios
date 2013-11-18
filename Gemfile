@@ -12,6 +12,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 gem 'slim-rails'
+gem 'simple_form'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -25,7 +26,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'debugger'
+  gem 'byebug'
   gem 'rspec-rails', '~> 2.0'
   gem 'capybara'
   gem 'simplecov', :require => false

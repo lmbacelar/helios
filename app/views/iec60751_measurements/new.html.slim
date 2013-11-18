@@ -1,0 +1,12 @@
+= simple_form_for @measurement do |f|
+  fieldset 
+    legend New IEC 60751 Measurement
+    = f.input :temperature, required: false
+    = f.input :resistance
+
+    = f.input :r0
+    = f.input :a
+    = f.input :b
+    = f.input :c
+      
+    = f.button :submit
