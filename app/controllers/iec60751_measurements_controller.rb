@@ -13,7 +13,7 @@ class Iec60751MeasurementsController < ApplicationController
 
   def create
     @measurement = Iec60751Measurement.new measurement_params
-    flash[:notice] = "Measurement was successfully created" if @measurement.save
+    flash[:notice] = 'Measurement was successfully created' if @measurement.save
     respond_with @measurement
   end
 
@@ -25,7 +25,7 @@ class Iec60751MeasurementsController < ApplicationController
   def destroy
     @measurement = Iec60751Measurement.find(params[:id])
     @measurement.destroy
-    flash[:notice] = "Measurement was successfully destroyed" 
+    flash[:notice] = 'Measurement was successfully destroyed' 
     respond_with @measurement
   end
 
