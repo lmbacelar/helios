@@ -23,10 +23,11 @@ group :test do
   gem 'autotest'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+  gem 'factory_girl_rails'
 end
 
 group :development, :test do
-  gem 'byebug'
+  gem 'debugger'
   gem 'rspec-rails', '~> 2.0'
   gem 'capybara'
   gem 'simplecov', :require => false
