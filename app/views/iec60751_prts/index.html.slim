@@ -1,0 +1,10 @@
+h1 IEC 60751 Platinum Resistance Thermometers
+
+- if @prts.empty?
+  p No Platinum Resistance Thermometers found.
+  
+- else
+  = link_to 'New PRT', new_iec60751_prt_path
+  = render @prts
+
+= link_to 'New PRT', new_iec60751_prt_path
