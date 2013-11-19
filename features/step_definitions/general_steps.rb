@@ -29,6 +29,12 @@ When /^I visit the "(.*?)" page$/ do |resource|
   visit "/#{table_name_from(resource)}"
 end
 
+When /^I visit the page of "(.*?)" with ([^"]*) "(.*?)"$/ do |resource, attribute, value|
+  resource_id = klass_from(resource).find_by(attribute => value).id
+  target_path = "/#{table_name_from resource}/#{resource_id}"
+  visit target_path
+end
+
 When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
 end
@@ -52,6 +58,12 @@ Then /^(?:|I )should be on the page of the last "(.+)"$/ do |resource|
   expect(current_path).to eq target_path
 end
 
+Then /^I should be on the page of "(.*?)" with ([^"]*) "(.*?)"$/ do |resource, attribute, value|
+  resource_id = klass_from(resource).find_by(attribute => value).id
+  target_path = "/#{table_name_from resource}/#{resource_id}"
+  expect(current_path).to eq target_path
+end
+
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
   expect(page).to have_content(text)
 end
@@ -68,8 +80,8 @@ Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   expect(page).to have_no_xpath('//*', text: Regexp.new(regexp))
 end
 
-Then /^"(.*?)" should appear before "(.*?)"$/ do |text1, text2|
-  expect(page.body).to match /#{text1}.*#{text2}/m
+Then /^I should see "(.*?)" before "(.*?)"$/ do |text1, text2|
+  expect(page.body).to match /#{Regexp.quote(text1)}.*#{Regexp.quote(text2)}/m
 end
 
 Then /^I should see one "(.*?)" link$/ do |link_text|
