@@ -9,7 +9,6 @@ class Iec60751MeasurementsController < ApplicationController
 
   def new
     @measurement ||= Iec60751Measurement.new 
-    respond_with @recent_measurement
   end
 
   def create
