@@ -4,23 +4,67 @@ require 'json'
 examples = JSON.parse(File.read('spec/assets/models/iec60751_measurement/examples.json'), symbolize_names: true)
 
 describe Iec60751Measurement do
-  it 'requires presence of either temperature or resistance' do
-    expect(Iec60751Measurement.new).not_to be_valid
-    expect(Iec60751Measurement.new resistance: 100).to be_valid
-    expect(Iec60751Measurement.new temperature:  0).to be_valid
+  context 'validates' do
+    it 'presence of either temperature or resistance' do
+      expect(Iec60751Measurement.new).not_to be_valid
+      expect(Iec60751Measurement.new resistance: 100).to be_valid
+      expect(Iec60751Measurement.new temperature:  0).to be_valid
+    end
+
+    it 'temperature range to be within -200.10 and 850.10' do
+      expect(Iec60751Measurement.new temperature: -200.11).not_to be_valid
+      expect(Iec60751Measurement.new temperature: -200.10).to     be_valid
+      expect(Iec60751Measurement.new temperature:  850.10).to     be_valid
+      expect(Iec60751Measurement.new temperature:  850.11).not_to be_valid
+    end
   end
 
-  it 'prioritizes temperature when both temperature and resistance are present' do
-    measurement = Iec60751Measurement.new temperature: 0, resistance: 110
-    expect(measurement.temperature).to be_within(1e-4).of(0)
-    expect(measurement.resistance ).to be_within(1e-4).of(100)
+  context 'scopes' do
+    before do
+      create :iec60751_measurement, temperature: 0, created_at: '2001-01-01 00:00:00'
+      create :iec60751_measurement, temperature: 1, created_at: '2001-01-01 00:01:00'
+      create :iec60751_measurement, temperature: 2, created_at: '2001-01-01 00:02:00'
+      create :iec60751_measurement, temperature: 3, created_at: '2001-01-01 00:03:00'
+    end
+
+    it '#latest expected to show all measurements' do
+      expect(Iec60751Measurement.latest.count).to eq 4
+    end
+
+    it '#latest expected to show latest measurements first' do
+      expect(Iec60751Measurement.latest[0].created_at).to be > Iec60751Measurement.latest[1].created_at
+    end
+
+    it '#after(`time`) shows measurements created later than `time`' do
+      expect(Iec60751Measurement.after('2001-01-01 00:01:00').count).to be 2
+      expect(Iec60751Measurement.after('2001-01-01 00:01:00').minimum(:created_at)).to eq '2001-01-01 00:02:00'
+      expect(Iec60751Measurement.after('2001-01-01 00:01:00').maximum(:created_at)).to eq '2001-01-01 00:03:00'
+    end
+
+    it '#after(`time`) shows all measurements when `time` is invalid' do
+      expect(Iec60751Measurement.after('some invalid date').count).to be 4
+      expect(Iec60751Measurement.after(nil).count).to be 4
+    end
+
+
+    it '#before(`time`) shows measurements created earlier than `time`' do
+      expect(Iec60751Measurement.before('2001-01-01 00:02:00').count).to be 2
+      expect(Iec60751Measurement.before('2001-01-01 00:02:00').minimum(:created_at)).to eq '2001-01-01 00:00:00'
+      expect(Iec60751Measurement.before('2001-01-01 00:02:00').maximum(:created_at)).to eq '2001-01-01 00:01:00'
+    end
+
+    it '#before(`time`) shows all measurements when `time` is invalid' do
+      expect(Iec60751Measurement.before('some invalid date').count).to be 4
+      expect(Iec60751Measurement.before(nil).count).to be 4
+    end
   end
 
-  it 'validates temperature range to be within -200.10 and 850.10' do
-    expect(Iec60751Measurement.new temperature: -200.11).not_to be_valid
-    expect(Iec60751Measurement.new temperature: -200.10).to     be_valid
-    expect(Iec60751Measurement.new temperature:  850.10).to     be_valid
-    expect(Iec60751Measurement.new temperature:  850.11).not_to be_valid
+  context 'on ambiguous data' do
+    it 'prioritizes temperature' do
+      measurement = Iec60751Measurement.new temperature: 0, resistance: 110
+      expect(measurement.temperature).to be_within(1e-4).of(0)
+      expect(measurement.resistance ).to be_within(1e-4).of(100)
+    end
   end
 
   context 'temperature computation' do

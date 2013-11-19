@@ -1,6 +1,15 @@
 h1 IEC 60751 Measurements
 
-- if @recent_measurements.empty?
+= form_tag iec60751_measurements_path, method: :get do
+  fieldset 
+    legend Search
+    label From
+    = text_field_tag :from, @from
+    label To
+    = text_field_tag :to, @to
+    = submit_tag 'Refresh'
+
+- if @measurements.empty?
   p No measurements found.
   
 - else
@@ -14,6 +23,6 @@ h1 IEC 60751 Measurements
         th Resistance
         th Actions
       tbody
-        = render @recent_measurements
+        = render @measurements
 
 = link_to 'New Measurement', new_iec60751_measurement_path

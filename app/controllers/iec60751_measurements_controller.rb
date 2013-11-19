@@ -2,8 +2,9 @@ class Iec60751MeasurementsController < ApplicationController
   respond_to :html
 
   def index
-    @recent_measurements = Iec60751Measurement.recent
-    respond_with @recent_measurements
+    @from, @to = params[:from], params[:to]
+    @measurements = Iec60751Measurement.latest.after(@from).before(@to)
+    respond_with @measurements
   end
 
   def new

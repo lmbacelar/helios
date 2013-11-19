@@ -8,7 +8,9 @@ class Iec60751Measurement < ActiveRecord::Base
   validates :temperature, numericality: { greater_than_or_equal_to: TEMPERATURE_RANGE.min, 
                                           less_than_or_equal_to:    TEMPERATURE_RANGE.max }
 
-  scope :recent, -> { order created_at: :desc }
+  scope :latest, ->       { order created_at: :desc }
+  scope :before, ->(time) { (Time.parse(time.to_s) rescue nil) ? where('created_at < ?', time) : all }
+  scope :after,  ->(time) { (Time.parse(time.to_s) rescue nil) ? where('created_at > ?', time) : all }
 
   def resistance= r
     return unless r
