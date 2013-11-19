@@ -1,6 +1,11 @@
+h1 New IEC 60751 Measurement
+
 = simple_form_for @measurement do |f|
   fieldset 
-    legend New IEC 60751 Measurement
+    legend Details
+    = f.error_notification
+    = f.error :base
+
     = f.input :temperature, required: false
     span or
     = f.input :resistance
@@ -9,5 +14,5 @@
     = f.input :a
     = f.input :b
     = f.input :c
-      
+
     = f.button :submit

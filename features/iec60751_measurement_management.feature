@@ -51,8 +51,9 @@ Feature: IEC 60751 Measurement Management
   Scenario: Create new measurement with invalid data
     Given I am on the new "IEC 60751 Measurement" page
     And   I press "Create"
-    Then  I should see "Either temperature or resistance required"
-    Then  I should not see "Measurement was successfully created"
+    Then  I should see "Please review the problems below"
+    And   I should see "Either temperature or resistance required"
+    And   I should not see "Measurement was successfully created"
 
   Scenario: Delete measurement
     When  I visit the "IEC 60751 Measurements" page
