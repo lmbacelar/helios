@@ -19,7 +19,7 @@ class Iec60751MeasurementsController < ApplicationController
 
   def show
     @measurement = Iec60751Measurement.find(params[:id])
-    respond_with @recent_measurement
+    respond_with @measurement
   end
 
   def destroy
