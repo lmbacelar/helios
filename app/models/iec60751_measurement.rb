@@ -1,59 +1,41 @@
 class Iec60751Measurement < ActiveRecord::Base
+  belongs_to :iec60751_prt
 
-  TEMPERATURE_RANGE = -200.10..850.10
-  MAX_ITERATIONS    = 10
-  MAX_ERROR         = 1e-4
-
-  validate  :presence_of_temperature_or_resistance
-  validates :temperature, numericality: { greater_than_or_equal_to: TEMPERATURE_RANGE.min, 
-                                          less_than_or_equal_to:    TEMPERATURE_RANGE.max }
+  validates :iec60751_prt, presence: true
+  validate  :presence_of_temperature_or_resistance,
+            :temperature_within_prt_range
 
   scope :latest, ->       { order created_at: :desc }
   scope :before, ->(time) { (Time.parse(time.to_s) rescue nil) ? where('created_at < ?', time) : all }
   scope :after,  ->(time) { (Time.parse(time.to_s) rescue nil) ? where('created_at > ?', time) : all }
 
+  before_validation :update_temperature
+
   def resistance= r
-    return unless r
-    return if temperature
-    self.temperature = get_t90 r.to_f
+    @resistance = r
   end
 
   def resistance
-    return unless temperature
-    get_r temperature
+    temperature ? iec60751_prt.r(temperature) : @resistance
   end
 
 protected
-  def get_r t90
-    t90 >= 0 ?
-      r0*(1 + a*t90 + b*t90**2) :
-      r0*(1 + a*t90 + b*t90**2 - 100*c*t90**3 + c*t90**4)
-  end
-
-  def get_t90_approximation r
-    r >= r0 ?
-      (-a + (a**2 - 4 * b * (1 - r / r0))**(0.5)) / (2 * b) :
-      ((r / r0) - 1) / (a + 100 * b)
-  end
-
-  def get_t90 r
-    return 0 if r == r0
-    t90 = get_t90_approximation r
-    return Float::NAN if t90.is_a? Complex
-    MAX_ITERATIONS.times do
-      slope = (r - r0) / t90
-      r_calc = get_r t90
-      break if (r_calc - r).abs < slope * MAX_ERROR
-      t90 -= (r_calc - r) / slope
+  def update_temperature
+    if temperature.blank? && resistance.present?
+      self.temperature = iec60751_prt.try(:t90, @resistance.to_f) 
     end
-    t90
+  end
+  
+  def temperature_within_prt_range
+    return unless temperature && iec60751_prt
+    if temperature < iec60751_prt.class::RANGE.min || temperature > iec60751_prt.class::RANGE.max
+      errors[:temperature] << 'not within range of PRT.'
+    end
   end
 
   def presence_of_temperature_or_resistance
     if (self.temperature.to_s + self.resistance.to_s).empty?
-      msg = 'Either temperature or resistance required.'
-      errors[:temperature] << msg
-      errors[:resistance]  << msg
+      errors[:base] << 'Either temperature or resistance required.'
     end
   end
 end

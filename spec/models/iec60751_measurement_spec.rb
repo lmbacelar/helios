@@ -1,21 +1,39 @@
 require 'spec_helper'
-require 'json'
-
-examples = JSON.parse(File.read('spec/assets/models/iec60751_measurement/examples.json'), symbolize_names: true)
 
 describe Iec60751Measurement do
   context 'validates' do
-    it 'presence of either temperature or resistance' do
-      expect(Iec60751Measurement.new).not_to be_valid
-      expect(Iec60751Measurement.new resistance: 100).to be_valid
-      expect(Iec60751Measurement.new temperature:  0).to be_valid
+    it 'presence of PRT' do
+      expect(subject).to validate_presence_of :iec60751_prt
     end
 
-    it 'temperature range to be within -200.10 and 850.10' do
-      expect(Iec60751Measurement.new temperature: -200.11).not_to be_valid
-      expect(Iec60751Measurement.new temperature: -200.10).to     be_valid
-      expect(Iec60751Measurement.new temperature:  850.10).to     be_valid
-      expect(Iec60751Measurement.new temperature:  850.11).not_to be_valid
+    it 'presence of either temperature or resistance' do
+      expect(build :iec60751_measurement, temperature: nil, resistance: nil).not_to be_valid
+      expect(build :iec60751_measurement, resistance: 100).to be_valid
+      expect(build :iec60751_measurement, temperature:  0).to be_valid
+    end
+
+    it 'temperature range to be within IEC 60751 PRT range' do
+      min = Iec60751Prt::RANGE.min
+      max = Iec60751Prt::RANGE.max
+      expect(build :iec60751_measurement, temperature: min - 0.01).not_to be_valid
+      expect(build :iec60751_measurement, temperature: min       ).to be_valid
+      expect(build :iec60751_measurement, temperature: max       ).to be_valid
+      expect(build :iec60751_measurement, temperature: max + 0.01).not_to be_valid
+    end
+  end
+
+  context 'on ambiguous data' do
+    it 'prioritizes temperature' do
+      m = create :iec60751_measurement, temperature: 0, resistance: 110
+      m.save
+      expect(m.temperature).to be_within(1e-4).of(0)
+      expect(m.resistance ).to be_within(1e-4).of(100)
+    end
+   end
+
+  context 'associations' do
+    it 'belongs to an IEC 60751 PRT' do
+      expect(subject).to belong_to :iec60751_prt
     end
   end
 
@@ -46,7 +64,6 @@ describe Iec60751Measurement do
       expect(Iec60751Measurement.after(nil).count).to be 4
     end
 
-
     it '#before(`time`) shows measurements created earlier than `time`' do
       expect(Iec60751Measurement.before('2001-01-01 00:02:00').count).to be 2
       expect(Iec60751Measurement.before('2001-01-01 00:02:00').minimum(:created_at)).to eq '2001-01-01 00:00:00'
@@ -59,55 +76,26 @@ describe Iec60751Measurement do
     end
   end
 
-  context 'on ambiguous data' do
-    it 'prioritizes temperature' do
-      measurement = Iec60751Measurement.new temperature: 0, resistance: 110
-      expect(measurement.temperature).to be_within(1e-4).of(0)
-      expect(measurement.resistance ).to be_within(1e-4).of(100)
-    end
-  end
-
-  context 'temperature computation' do
-    it 'treats complex temperatures as NaN, and considers record invalid' do
-      measurement = Iec60751Measurement.new resistance: 1000
-      expect(measurement.temperature).to be Float::NAN
-      expect(measurement).not_to be_valid
-    end
-
-    context 'standard coefficients' do
-      examples.each do |example|
-        it "yields #{example[:t]} Celius when resistance equals #{example[:r]} Ohm" do
-          measurement = Iec60751Measurement.new resistance: example[:r]
-          expect(measurement.temperature).to be_within(1e-4).of(example[:t])
-        end
-      end
-    end
-
-    context 'non-standard coefficients' do
-      it 'yields 0.0 Celsius when resistance equals 101.0 Ohm on a PRT with r0 = 101.0 Ohm' do
-        pending 'now fails but should pass when coefficients are moved to a PRT model'
-        measurement = Iec60751Measurement.new resistance: 101.0, r0: 101.0
-        expect(measurement.temperature).to be_within(1e-4).of(0)
-      end
-    end
-  end
-
   context 'resistance computation' do
-    context 'standard coefficients' do
-      examples.each do |example|
-        it "yields #{example[:r]} Ohm when t90 equals #{example[:t]} Celsius" do
-          measurement = Iec60751Measurement.new temperature: example[:t]
-          expect(measurement.resistance).to be_within(1e-4).of(example[:r])
-        end 
-      end 
-    end
-
-    context 'non-standard coefficients' do
-      it 'yields 101.0 Ohm when temperature equals 0.0 Celsius on a PRT with r0 = 101.0 Ohm' do
-        measurement = Iec60751Measurement.new temperature: 0.0, r0: 101.0
-        expect(measurement.resistance).to be_within(1e-4).of(101)
-      end
+    it 'is handled by the prt when getting' do
+      m = create :iec60751_measurement
+      expect(m.iec60751_prt).to receive(:r)
+      m.resistance
     end
   end
 
+  context 'temperature computation from resistance' do
+    it 'is handled by the PRT' do
+      m = build :iec60751_measurement, temperature: nil, resistance: 100
+      expect(m.iec60751_prt).to receive(:t90).with(100)
+      m.save
+    end
+
+    it 'sets the temperature' do
+      m = build :iec60751_measurement, temperature: nil, resistance: 110
+      m.iec60751_prt.stub(:t90).and_return(25.68)
+      m.save
+      expect(m.temperature).to eq 25.68
+    end
+  end
 end

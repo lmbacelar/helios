@@ -17,23 +17,9 @@ class Iec60751MeasurementPresenter < BasePresenter
     measurement.created_at.strftime "%H:%M:%S"
   end
 
-  def r0
-    format "%.4f Ohm", measurement.r0
-  end
-
-  def a
-    format "%+.5E", measurement.a
-  end
-
-  def b
-    format "%+.5E", measurement.b
-  end
-
-  def c
-    format "%+.5E", measurement.c
-  end
-
   def destroy_link
-    h.link_to 'Destroy', measurement, method: :delete, data: { confirm: 'Are you sure?' }
+    h.link_to 'Destroy',  h.iec60751_prt_iec60751_measurement_path(measurement.iec60751_prt, measurement), 
+                          method: :delete,
+                          data: { confirm: 'Are you sure?' }
   end
 end

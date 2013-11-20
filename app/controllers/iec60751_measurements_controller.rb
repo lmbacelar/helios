@@ -1,38 +1,44 @@
 class Iec60751MeasurementsController < ApplicationController
   respond_to :html
 
+  before_action :set_prt
+
   def index
     @from, @to = params[:from], params[:to]
-    @measurements = Iec60751Measurement.latest.after(@from).before(@to)
+    @measurements = @prt.iec60751_measurements.latest.after(@from).before(@to)
     respond_with @measurements
   end
 
   def new
-    @measurement ||= Iec60751Measurement.new 
+    @measurement ||= @prt.iec60751_measurements.new 
   end
 
   def create
-    @measurement = Iec60751Measurement.new measurement_params
+    @measurement = @prt.iec60751_measurements.new measurement_params
     flash[:notice] = 'Measurement was successfully created' if @measurement.save
-    respond_with @measurement
+    respond_with @prt, @measurement
   end
 
   def show
-    @measurement = Iec60751Measurement.find(params[:id])
-    respond_with @measurement
+    @measurement = @prt.iec60751_measurements.find(params[:id])
+    respond_with @prt, @measurement
   end
 
   def destroy
-    @measurement = Iec60751Measurement.find(params[:id])
+    @measurement = @prt.iec60751_measurements.find(params[:id])
     @measurement.destroy
     flash[:notice] = 'Measurement was successfully destroyed' 
-    respond_with @measurement
+    respond_with @prt, @measurement
   end
 
-  protected
+private
+  def set_prt
+    @prt = Iec60751Prt.find params[:iec60751_prt_id]
+  end
+
   def measurement_params
     params.require(:iec60751_measurement)
-          .permit(:resistance, :temperature, :r0, :a, :b, :c)
+          .permit(:temperature, :resistance)
           .delete_if{ |k, v| v.blank? }
   end
 end

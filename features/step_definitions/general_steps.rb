@@ -1,6 +1,13 @@
-Given /^the following "(.*?)" exist:$/ do |resource, table|
+Given /^the following "([^"]*)" exist:$/ do |resource, table|
   table.hashes.each do |hash|
     klass_from(resource).create hash
+  end    
+end
+
+Given /^the following "([^"]*)" exist for "([^"]*)" with ([^"]*) "(.*?)":$/ do |child_resource, parent_resource, attribute, value, table|
+  parent = klass_from(parent_resource).find_by(attribute => value)
+  table.hashes.each do |hash|
+    parent.send(table_name_from child_resource).create hash
   end    
 end
 
@@ -8,12 +15,22 @@ Given /^I am on the new "(.*?)" page$/ do |resource|
   visit "/#{table_name_from(resource)}/new"
 end
 
+Given /^I am on the new "([^"]*)" page for "([^"]*)" with ([^"]*) "(.*?)"$/ do |child_resource, parent_resource, attribute, value|
+  parent_id = klass_from(parent_resource).find_by(attribute => value).id
+  visit "/#{table_name_from parent_resource}/#{parent_id}/#{table_name_from child_resource}/new"
+end
+
 Given /^I am on the page for the last "(.*?)"$/  do |resource|
   visit "/#{table_name_from resource}/#{last_id_from resource}"
 end
 
-Given /^I have no "(.*?)"$/ do |resource|
+Given /^I have no "([^"]*)"$/ do |resource|
   klass_from(resource).delete_all
+end
+
+Given /^I have no "([^"]*)" for "([^"]*)" with ([^"]*) "(.*?)"$/ do |child_resource, parent_resource, attribute, value|
+  parent = klass_from(parent_resource).find_by(attribute => value)
+  parent.send(table_name_from child_resource).delete_all
 end
 
 
@@ -35,6 +52,12 @@ When /^I visit the page of "(.*?)" with ([^"]*) "(.*?)"$/ do |resource, attribut
   visit target_path
 end
 
+When /^I visit the "([^"]*)" page for "([^"]*)" with ([^"]*) "(.*?)"$/ do |child_resource, parent_resource, attribute, value|
+  parent_id = klass_from(parent_resource).find_by(attribute => value).id
+  target_path = "/#{table_name_from parent_resource}/#{parent_id}/#{table_name_from child_resource}"
+  visit target_path
+end
+
 When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
 end
@@ -53,10 +76,29 @@ Then /^I should be on the new "(.*?)" page$/  do |resource|
   expect(current_path).to eq target_path
 end
 
-Then /^(?:|I )should be on the page of the last "(.+)"$/ do |resource|
+Then /^I should be on the "([^"]*)" page for "([^"]*)" with ([^"]*) "(.*?)"$/ do |child_resource, parent_resource, attribute, value|
+  parent_id = klass_from(parent_resource).find_by(attribute => value).id
+  target_path = "/#{table_name_from parent_resource}/#{parent_id}/#{table_name_from child_resource}"
+  expect(current_path).to eq target_path
+end
+
+Then /^I should be on the new "([^"]*)" page for "([^"]*)" with ([^"]*) "(.*?)"$/ do |child_resource, parent_resource, attribute, value|
+  parent_id = klass_from(parent_resource).find_by(attribute => value).id
+  target_path = "/#{table_name_from parent_resource}/#{parent_id}/#{table_name_from child_resource}/new"
+  expect(current_path).to eq target_path
+end
+
+Then /^(?:|I )should be on the page of the last "([^"]*)"$/ do |resource|
   target_path = "/#{table_name_from resource}/#{last_id_from resource}"
   expect(current_path).to eq target_path
 end
+
+Then /^(?:|I )should be on the page of the last "([^"]*)" for "([^"]*)" with ([^"]*) "(.*?)"$/ do |child_resource, parent_resource, attribute, value|
+  parent_id = klass_from(parent_resource).find_by(attribute => value).id
+  target_path = "/#{table_name_from parent_resource}/#{parent_id}/#{table_name_from child_resource}/#{last_id_from child_resource}"
+  expect(current_path).to eq target_path
+end
+
 
 Then /^I should be on the page of "(.*?)" with ([^"]*) "(.*?)"$/ do |resource, attribute, value|
   resource_id = klass_from(resource).find_by(attribute => value).id

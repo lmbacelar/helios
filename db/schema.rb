@@ -18,13 +18,12 @@ ActiveRecord::Schema.define(version: 20131119152337) do
 
   create_table "iec60751_measurements", force: true do |t|
     t.float    "temperature"
-    t.float    "r0",          default: 100.0
-    t.float    "a",           default: 0.0039083
-    t.float    "b",           default: -5.775e-07
-    t.float    "c",           default: -4.183e-12
+    t.integer  "iec60751_prt_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "iec60751_measurements", ["iec60751_prt_id"], name: "index_iec60751_measurements_on_iec60751_prt_id", using: :btree
 
   create_table "iec60751_prts", force: true do |t|
     t.string   "name"
