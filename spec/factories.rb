@@ -14,6 +14,5 @@ FactoryGirl.define do
 
   factory :iec60751_prt do
     sequence(:name) { |n| "PRT#{n}" }
-    description 'Some description'
   end
 end
