@@ -1,4 +1,4 @@
-class PrtMeasurement < Measurement
+class PrtMeasurement < TemperatureMeasurement
   belongs_to :iec60751_prt, class_name: 'Iec60751Prt', 
                             foreign_key: :instrument_id
 
@@ -6,8 +6,6 @@ class PrtMeasurement < Measurement
             :temperature_within_prt_range
 
   before_validation :update_temperature
-
-  alias_attribute :temperature,  :value
 
   def resistance= r
     @resistance = r
