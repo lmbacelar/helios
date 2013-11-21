@@ -15,4 +15,8 @@ FactoryGirl.define do
   factory :iec60751_prt do
     sequence(:name) { |n| "PRT#{n}" }
   end
+
+  factory :its90_prt do
+    sequence(:name) { |n| "PRT#{n}" }
+  end
 end

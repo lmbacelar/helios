@@ -1,0 +1,37 @@
+- present @prt do |prt|
+  h1 ITS-90 Platinum Resistance Thermometer
+  section
+    dl
+      dt Name
+      dd= prt.name
+  section
+    dl
+      dt Sub-range
+      dd= prt.sub_range
+  section
+      dt Rtpw
+      dd= prt.rtpw
+  section
+      dt A
+      dd= prt.a
+      dt B
+      dd= prt.b
+      dt C
+      dd= prt.c
+      dt D
+      dd= prt.d
+      dt W660
+      dd= prt.w660
+  section
+      dt C1
+      dd= prt.c1
+      dt C2
+      dd= prt.c2
+      dt C3
+      dd= prt.c3
+      dt C4
+      dd= prt.c4
+      dt C5
+      dd= prt.c5
+
+  = link_to 'Back to PRT list', its90_prts_path

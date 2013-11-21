@@ -1,0 +1,28 @@
+h1 New ITS-90 Platinum Resistance Thermometer
+
+= simple_form_for @prt do |f|
+  fieldset 
+    legend Details
+    = f.error_notification
+    = f.error :base
+
+    = f.input :name
+
+    = f.input :sub_range
+
+    = f.input :rtpw
+
+    = f.input :a
+    = f.input :b
+    = f.input :c
+    = f.input :d
+
+    = f.input :w660
+
+    = f.input :c1
+    = f.input :c2
+    = f.input :c3
+    = f.input :c4
+    = f.input :c5
+
+    = f.button :submit

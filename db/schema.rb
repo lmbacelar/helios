@@ -11,18 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121104502) do
+ActiveRecord::Schema.define(version: 20131121153951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "iec60751_prts", force: true do |t|
     t.string   "name"
-    t.string   "description"
-    t.float    "r0",          default: 100.0
-    t.float    "a",           default: 0.0039083
-    t.float    "b",           default: -5.775e-07
-    t.float    "c",           default: -4.183e-12
+    t.float    "r0",         default: 100.0
+    t.float    "a",          default: 0.0039083
+    t.float    "b",          default: -5.775e-07
+    t.float    "c",          default: -4.183e-12
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "its90_prts", force: true do |t|
+    t.string   "name"
+    t.integer  "sub_range"
+    t.float    "rtpw",       default: 25.0
+    t.float    "a",          default: 0.0
+    t.float    "b",          default: 0.0
+    t.float    "c",          default: 0.0
+    t.float    "d",          default: 0.0
+    t.float    "w660",       default: 0.0
+    t.float    "c1",         default: 0.0
+    t.float    "c2",         default: 0.0
+    t.float    "c3",         default: 0.0
+    t.float    "c4",         default: 0.0
+    t.float    "c5",         default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
