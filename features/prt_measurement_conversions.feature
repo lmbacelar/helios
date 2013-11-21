@@ -5,9 +5,7 @@ Feature: PRT Measurement Conversions
     I want to get temperature from resistance and vice-versa
 
   Background: IEC 60751 PRT's on database
-    Given the following "IEC 60751 PRT" exist:
-      | name |
-      | PRT1 |
+    Given the "IEC 60751 PRT" with name "PRT1" exists
 
   Scenario: Get temperature from resistance
     Given I am on the new "PRT Measurement" page for "IEC 60751 PRT" with name "PRT1"

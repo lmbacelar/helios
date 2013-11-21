@@ -10,20 +10,14 @@ Feature: IEC 60751 PRT Management
     And   I should see one "New PRT" link
     
   Scenario: List all PRTs when there are PRTs
-    Given the following "IEC 60751 PRT" exist:
-      | name |  r0    | a          | b           | c           |
-      | PRT1 |  100.0 | 3.9083e-03 | -5.7750e-07 | -4.1830e-12 |
-      | PRT2 |  99.91 | 3.9083e-03 | -5.7750e-07 | -4.1830e-12 |
-      | PRT3 |  100.1 | 3.9083e-03 | -5.7750e-07 | -4.1830e-12 |
+    Given the "IEC 60751 PRT" with name "PRT1" exists
+    And   the "IEC 60751 PRT" with name "PRT2" exists
     When  I visit the "IEC 60751 PRT" page
     Then  I should see "Name" before "PRT1"
     And   I should see "PRT2"
-    And   I should see "PRT3"
 
   Scenario: Displays New PRT links above and below existing PRTs
-    Given the following "IEC 60751 PRT" exist:
-      | name | r0    | a          | b           | c           |
-      | PRT1 | 100.0 | 3.9083e-03 | -5.7750e-07 | -4.1830e-12 |
+    Given the "IEC 60751 PRT" with name "PRT1" exists
     When  I visit the "IEC 60751 PRT" page
     Then  I should see 2 "New PRT" links
     And   I should see "New PRT" before "Name"
@@ -67,17 +61,13 @@ Feature: IEC 60751 PRT Management
     And   I should see "C" before "-4.18300E-12"
 
   Scenario: Show link back to IEC 60751 PRTs page
-    Given the following "IEC 60751 PRT" exist:
-      | name | r0    | a          | b           | c           |
-      | PRT1 | 100.0 | 3.9083e-03 | -5.7750e-07 | -4.1830e-12 |
+    Given the "IEC 60751 PRT" with name "PRT1" exists
     When  I visit the page of "IEC 60751 PRT" with name "PRT1"
     And   I follow "Back to PRT list"
     Then  I should be on the "IEC 60751 PRT" page
 
   Scenario: Delete PRT
-    Given the following "IEC 60751 PRT" exist:
-      | name | r0    | a          | b           | c           |
-      | PRT1 | 100.0 | 3.9083e-03 | -5.7750e-07 | -4.1830e-12 |
+    Given the "IEC 60751 PRT" with name "PRT01" exists
     When  I visit the "IEC 60751 PRT" page
     And   I follow "Destroy"
     Then  I should be on the "IEC 60751 PRT" page

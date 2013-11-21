@@ -4,9 +4,7 @@ Feature: PRT Measurement Management
   I want to create, list and destroy PRT temperature measurements
 
   Background: IEC 60751 PRT's on database
-    Given the following "IEC 60751 PRT" exist:
-      | name |
-      | PRT1 |
+    Given the "IEC 60751 PRT" with name "PRT1" exists
 
   Scenario: List all measurements when there are no measurements
     Given I have no "PRT Measurements" for "IEC 60751 PRT" with name "PRT1"

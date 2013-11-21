@@ -5,10 +5,8 @@ Feature: PRT Measurements Filtering
   I want to filter the measurements I view
 
   Background: Iec 60751 Measurements in the database
-    Given the following "IEC 60751 PRT" exist:
-      | name |
-      | PRT1 |
-    Given the following "PRT Measurements" exist for "IEC 60751 PRT" with name "PRT1":
+    Given the "IEC 60751 PRT" with name "PRT1" exists
+    And   the following "PRT Measurements" exist for "IEC 60751 PRT" with name "PRT1":
       | temperature | created_at          |
       | 0.23        | 2013-01-01 00:00:01 | 
       | 5.01        | 2013-01-01 12:00:01 | 

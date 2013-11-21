@@ -1,3 +1,7 @@
+Given /^the "([^"]*)" with ([^"]*) "(.*?)" exists$/ do |resource, attribute, value|
+  klass_from(resource).create attribute => value
+end
+
 Given /^the following "([^"]*)" exist:$/ do |resource, table|
   table.hashes.each do |hash|
     klass_from(resource).create hash
