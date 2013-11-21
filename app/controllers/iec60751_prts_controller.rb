@@ -31,7 +31,7 @@ class Iec60751PrtsController < ApplicationController
 protected
   def prt_params
     params.require(:iec60751_prt)
-          .permit(:name, :description, :r0, :a, :b, :c)
+          .permit(:name, :r0, :a, :b, :c)
           .delete_if{ |k, v| v.blank? }
   end
 end
