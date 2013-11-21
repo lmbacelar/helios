@@ -1,6 +1,6 @@
-class CreateIec60751Measurements < ActiveRecord::Migration
+class CreatePrtMeasurements < ActiveRecord::Migration
   def change
-    create_table :iec60751_measurements do |t|
+    create_table :prt_measurements do |t|
       t.float :temperature, required: true
       t.references :iec60751_prt, index: true
 

@@ -1,4 +1,4 @@
-class Iec60751Measurement < ActiveRecord::Base
+class PrtMeasurement < ActiveRecord::Base
   belongs_to :iec60751_prt
 
   validates :iec60751_prt, presence: true

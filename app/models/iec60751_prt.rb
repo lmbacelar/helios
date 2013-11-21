@@ -4,7 +4,7 @@ class Iec60751Prt < ActiveRecord::Base
   MAX_ERROR      = 1e-4
   RANGE          = -200.10..850.10
 
-  has_many  :iec60751_measurements, dependent: :destroy
+  has_many  :prt_measurements, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 

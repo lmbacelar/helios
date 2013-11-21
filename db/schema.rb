@@ -16,15 +16,6 @@ ActiveRecord::Schema.define(version: 20131119152337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "iec60751_measurements", force: true do |t|
-    t.float    "temperature"
-    t.integer  "iec60751_prt_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "iec60751_measurements", ["iec60751_prt_id"], name: "index_iec60751_measurements_on_iec60751_prt_id", using: :btree
-
   create_table "iec60751_prts", force: true do |t|
     t.string   "name"
     t.string   "description"
@@ -35,5 +26,14 @@ ActiveRecord::Schema.define(version: 20131119152337) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "prt_measurements", force: true do |t|
+    t.float    "temperature"
+    t.integer  "iec60751_prt_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "prt_measurements", ["iec60751_prt_id"], name: "index_prt_measurements_on_iec60751_prt_id", using: :btree
 
 end

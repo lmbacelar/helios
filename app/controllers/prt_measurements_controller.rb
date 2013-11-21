@@ -1,31 +1,31 @@
-class Iec60751MeasurementsController < ApplicationController
+class PrtMeasurementsController < ApplicationController
   respond_to :html
 
   before_action :set_prt
 
   def index
     @from, @to = params[:from], params[:to]
-    @measurements = @prt.iec60751_measurements.latest.after(@from).before(@to)
+    @measurements = @prt.prt_measurements.latest.after(@from).before(@to)
     respond_with @measurements
   end
 
   def new
-    @measurement ||= @prt.iec60751_measurements.new 
+    @measurement ||= @prt.prt_measurements.new 
   end
 
   def create
-    @measurement = @prt.iec60751_measurements.new measurement_params
+    @measurement = @prt.prt_measurements.new measurement_params
     flash[:notice] = 'Measurement was successfully created' if @measurement.save
     respond_with @prt, @measurement
   end
 
   def show
-    @measurement = @prt.iec60751_measurements.find(params[:id])
+    @measurement = @prt.prt_measurements.find(params[:id])
     respond_with @prt, @measurement
   end
 
   def destroy
-    @measurement = @prt.iec60751_measurements.find(params[:id])
+    @measurement = @prt.prt_measurements.find(params[:id])
     @measurement.destroy
     flash[:notice] = 'Measurement was successfully destroyed' 
     respond_with @prt, @measurement
@@ -37,7 +37,7 @@ private
   end
 
   def measurement_params
-    params.require(:iec60751_measurement)
+    params.require(:prt_measurement)
           .permit(:temperature, :resistance)
           .delete_if{ |k, v| v.blank? }
   end

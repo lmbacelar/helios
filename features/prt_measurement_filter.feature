@@ -1,4 +1,4 @@
-Feature: IEC 607510 Measurements Filtering
+Feature: PRT Measurements Filtering
 
   As a temperature metrologist
   In order to analyse temperature measurements
@@ -8,7 +8,7 @@ Feature: IEC 607510 Measurements Filtering
     Given the following "IEC 60751 PRT" exist:
       | name |
       | PRT1 |
-    Given the following "IEC 60751 Measurements" exist for "IEC 60751 PRT" with name "PRT1":
+    Given the following "PRT Measurements" exist for "IEC 60751 PRT" with name "PRT1":
       | temperature | created_at          |
       | 0.23        | 2013-01-01 00:00:01 | 
       | 5.01        | 2013-01-01 12:00:01 | 
@@ -17,7 +17,7 @@ Feature: IEC 607510 Measurements Filtering
       | 55.28       | 2013-01-03 00:00:01 | 
 
   Scenario: Search measurements between times
-    When  I visit the "IEC 60751 Measurements" page for "IEC 60751 PRT" with name "PRT1"
+    When  I visit the "PRT Measurements" page for "IEC 60751 PRT" with name "PRT1"
     And   I fill in "from" with "2013-01-02 00:00:00"
     And   I fill in "to" with "2013-01-02 23:59:59"
     And   I press "Refresh"
@@ -28,7 +28,7 @@ Feature: IEC 607510 Measurements Filtering
     And   I should not see "55.28"
 
   Scenario: Search measurements after time
-    When  I visit the "IEC 60751 Measurements" page for "IEC 60751 PRT" with name "PRT1"
+    When  I visit the "PRT Measurements" page for "IEC 60751 PRT" with name "PRT1"
     And   I fill in "from" with "2013-01-02 00:00:00"
     And   I press "Refresh"
     Then  I should see "12.80"
@@ -37,7 +37,7 @@ Feature: IEC 607510 Measurements Filtering
     But   I should not see "0.23"
 
   Scenario: Search measurements before time 
-    When  I visit the "IEC 60751 Measurements" page for "IEC 60751 PRT" with name "PRT1"
+    When  I visit the "PRT Measurements" page for "IEC 60751 PRT" with name "PRT1"
     And   I fill in "to" with "2013-01-02 00:00:00"
     And   I press "Refresh"
     Then  I should see "0.23"

@@ -15,8 +15,8 @@ describe Iec60751Prt do
   end
 
   context 'associations' do
-    it 'has many IEC 60751 Measurements' do
-      expect(subject).to have_many(:iec60751_measurements).dependent(:destroy)
+    it 'has many PRT Measurements' do
+      expect(subject).to have_many(:prt_measurements).dependent(:destroy)
     end
   end
 

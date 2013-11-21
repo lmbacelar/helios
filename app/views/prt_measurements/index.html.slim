@@ -1,6 +1,6 @@
 h1 IEC 60751 Measurements
 
-= form_tag iec60751_prt_iec60751_measurements_path(@prt), method: :get do
+= form_tag iec60751_prt_prt_measurements_path(@prt), method: :get do
   fieldset 
     legend Search
     label From
@@ -13,7 +13,7 @@ h1 IEC 60751 Measurements
   p No measurements found.
   
 - else
-  = link_to 'New Measurement', new_iec60751_prt_iec60751_measurement_path(@prt)
+  = link_to 'New Measurement', new_iec60751_prt_prt_measurement_path(@prt)
   table
     thead
       tr
@@ -25,4 +25,4 @@ h1 IEC 60751 Measurements
       tbody
         = render @measurements
 
-= link_to 'New Measurement', new_iec60751_prt_iec60751_measurement_path(@prt)
+= link_to 'New Measurement', new_iec60751_prt_prt_measurement_path(@prt)

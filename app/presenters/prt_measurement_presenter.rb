@@ -1,4 +1,4 @@
-class Iec60751MeasurementPresenter < BasePresenter
+class PrtMeasurementPresenter < BasePresenter
   presents :measurement
 
   def temperature
@@ -18,7 +18,7 @@ class Iec60751MeasurementPresenter < BasePresenter
   end
 
   def destroy_link
-    h.link_to 'Destroy',  h.iec60751_prt_iec60751_measurement_path(measurement.iec60751_prt, measurement), 
+    h.link_to 'Destroy',  h.iec60751_prt_prt_measurement_path(measurement.iec60751_prt, measurement), 
                           method: :delete,
                           data: { confirm: 'Are you sure?' }
   end
