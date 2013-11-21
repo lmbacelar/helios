@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :measurement do
+    value 0
+  end
+
   factory :prt_measurement do
     temperature 0
     iec60751_prt

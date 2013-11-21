@@ -1,15 +1,13 @@
-class PrtMeasurement < ActiveRecord::Base
-  belongs_to :iec60751_prt
+class PrtMeasurement < Measurement
+  belongs_to :iec60751_prt, class_name: 'Iec60751Prt', 
+                            foreign_key: :instrument_id
 
-  validates :iec60751_prt, presence: true
   validate  :presence_of_temperature_or_resistance,
             :temperature_within_prt_range
 
-  scope :latest, ->       { order created_at: :desc }
-  scope :before, ->(time) { (Time.parse(time.to_s) rescue nil) ? where('created_at < ?', time) : all }
-  scope :after,  ->(time) { (Time.parse(time.to_s) rescue nil) ? where('created_at > ?', time) : all }
-
   before_validation :update_temperature
+
+  alias_attribute :temperature,  :value
 
   def resistance= r
     @resistance = r
@@ -28,7 +26,7 @@ protected
   
   def temperature_within_prt_range
     return unless temperature && iec60751_prt
-    if temperature < iec60751_prt.class::RANGE.min || temperature > iec60751_prt.class::RANGE.max
+    if temperature < iec60751_prt.class.range.min || temperature > iec60751_prt.class.range.max
       errors[:temperature] << 'not within range of PRT.'
     end
   end

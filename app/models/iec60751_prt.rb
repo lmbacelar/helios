@@ -4,9 +4,13 @@ class Iec60751Prt < ActiveRecord::Base
   MAX_ERROR      = 1e-4
   RANGE          = -200.10..850.10
 
-  has_many  :prt_measurements, dependent: :destroy
+  has_many  :prt_measurements, foreign_key: :instrument_id,  dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
+
+  def self.range
+    RANGE
+  end
 
   def r t90
     t90 >= 0 ?

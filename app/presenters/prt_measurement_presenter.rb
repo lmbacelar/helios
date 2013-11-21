@@ -1,4 +1,4 @@
-class PrtMeasurementPresenter < BasePresenter
+class PrtMeasurementPresenter < MeasurementPresenter
   presents :measurement
 
   def temperature
@@ -7,14 +7,6 @@ class PrtMeasurementPresenter < BasePresenter
 
   def resistance
     format "%.4f Ohm", measurement.resistance
-  end
-
-  def date
-    measurement.created_at.to_date.iso8601
-  end
-
-  def time
-    measurement.created_at.strftime "%H:%M:%S"
   end
 
   def destroy_link

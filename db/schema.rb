@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131119152337) do
+ActiveRecord::Schema.define(version: 20131121104502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,13 +27,16 @@ ActiveRecord::Schema.define(version: 20131119152337) do
     t.datetime "updated_at"
   end
 
-  create_table "prt_measurements", force: true do |t|
-    t.float    "temperature"
-    t.integer  "iec60751_prt_id"
+  create_table "measurements", force: true do |t|
+    t.float    "value"
+    t.string   "unit"
+    t.string   "quantity"
+    t.string   "type"
+    t.integer  "instrument_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "prt_measurements", ["iec60751_prt_id"], name: "index_prt_measurements_on_iec60751_prt_id", using: :btree
+  add_index "measurements", ["instrument_id"], name: "index_measurements_on_instrument_id", using: :btree
 
 end
