@@ -4,18 +4,14 @@ describe Iec60751PrtPresenter do
   include ActionView::TestCase::Behavior
   
   let(:prt) do
-    double('Iec60751Prt', name: 'PRT01', description: 'Some description', 
-                          r0: 100, 
-                          a: 3.9083E-03, b: -5.775E-07, c: -4.183E-12)
+    double(Iec60751Prt, name: 'PRT01',
+                        r0: 100, 
+                        a: 3.9083E-03, b: -5.775E-07, c: -4.183E-12)
   end
   let(:presenter) { Iec60751PrtPresenter.new prt, view }
 
   it 'delegates name presentation to Iec60751Prt' do
    expect(presenter.name).to eq prt.name
-  end
-
-  it 'delegates description presentation to Iec60751Prt' do
-   expect(presenter.description).to eq prt.description
   end
 
   it 'presents r0 with 4 decimals and unit' do

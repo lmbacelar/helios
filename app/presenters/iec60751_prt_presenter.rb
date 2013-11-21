@@ -1,7 +1,7 @@
 class Iec60751PrtPresenter < BasePresenter
   presents :prt
 
-  delegate :name, :description, to: :prt
+  delegate :name, to: :prt
 
   def r0
     format "%.4f Ohm", prt.r0
