@@ -1,5 +1,7 @@
 class Iec60751Prt < ActiveRecord::Base
 
+  include RetryMethods
+
   MAX_ITERATIONS = 10
   MAX_ERROR      = 1e-4
   RANGE          = -200.10..850.10
@@ -7,7 +9,7 @@ class Iec60751Prt < ActiveRecord::Base
   has_many  :prt_measurements, foreign_key: :instrument_id,  dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
-
+ 
   def self.range
     RANGE
   end

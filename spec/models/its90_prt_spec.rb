@@ -10,6 +10,12 @@ t90_examples         = JSON.parse(File.read('spec/assets/models/its90_prt/t90_ex
 ipq_sprt             = JSON.parse(File.read('spec/assets/models/its90_prt/ipq_sprt.json')    , symbolize_names: true)
 
 describe Its90Prt do
+  context 'includes module' do
+    it 'RetryMethods' do
+      expect(Its90Prt.included_modules).to include RetryMethods
+    end
+  end
+
   context 'defaults' do
     let(:prt) { create :its90_prt, sub_range: 4 }
     it 'Rtpw to 25 Ohm' do

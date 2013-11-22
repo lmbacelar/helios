@@ -4,6 +4,12 @@ require 'json'
 examples = JSON.parse(File.read('spec/assets/models/iec60751_prt/examples.json'), symbolize_names: true)
 
 describe Iec60751Prt do
+  context 'includes module' do
+    it 'RetryMethods' do
+      expect(Iec60751Prt.included_modules).to include RetryMethods
+    end
+  end
+
   context 'validations' do
     it 'requires name to be present' do
       expect(subject).to validate_presence_of :name

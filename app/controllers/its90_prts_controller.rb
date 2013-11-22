@@ -12,7 +12,7 @@ class Its90PrtsController < ApplicationController
 
   def create
     @prt = Its90Prt.new prt_params
-    flash[:notice] = 'PRT was successfully created' if @prt.save
+    flash[:notice] = 'PRT was successfully created' if @prt.save_and_retry_on_unique
     respond_with @prt
   end
 

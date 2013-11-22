@@ -1,5 +1,7 @@
 class Its90Prt < ActiveRecord::Base
 
+  include RetryMethods
+
   validates :name,      presence: true, uniqueness: true
   validates :sub_range, presence: true
 
