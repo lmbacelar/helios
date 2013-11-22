@@ -7,6 +7,8 @@ class CreateIec60751Prts < ActiveRecord::Migration
       t.float  :b,    null: false, default:  -5.7750e-07
       t.float  :c,    null: false, default:  -4.1830e-12
 
+      t.index  :name, unique: true
+
       t.timestamps
     end
   end

@@ -26,11 +26,15 @@ ActiveRecord::Schema.define(version: 20131121153951) do
     t.datetime "updated_at"
   end
 
+  add_index "iec60751_prts", ["name"], name: "index_iec60751_prts_on_name", unique: true, using: :btree
+
   create_table "instruments", force: true do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "instruments", ["name"], name: "index_instruments_on_name", unique: true, using: :btree
 
   create_table "its90_prts", force: true do |t|
     t.string   "name",                      null: false
@@ -49,6 +53,8 @@ ActiveRecord::Schema.define(version: 20131121153951) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "its90_prts", ["name"], name: "index_its90_prts_on_name", unique: true, using: :btree
 
   create_table "measurements", force: true do |t|
     t.float    "value",         null: false

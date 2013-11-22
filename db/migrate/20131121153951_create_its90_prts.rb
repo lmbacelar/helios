@@ -15,6 +15,8 @@ class CreateIts90Prts < ActiveRecord::Migration
       t.float   :c4,        null: false, default:  0.0
       t.float   :c5,        null: false, default:  0.0
 
+      t.index   :name, unique: true
+
       t.timestamps
     end
   end
