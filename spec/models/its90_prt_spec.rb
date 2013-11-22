@@ -11,7 +11,7 @@ ipq_sprt             = JSON.parse(File.read('spec/assets/models/its90_prt/ipq_sp
 
 describe Its90Prt do
   context 'defaults' do
-    let(:prt) { create :its90_prt }
+    let(:prt) { create :its90_prt, sub_range: 4 }
     it 'Rtpw to 25 Ohm' do
       expect(prt.rtpw).to be_within(1e-9).of(25)
     end
@@ -31,12 +31,17 @@ describe Its90Prt do
   end
 
   context 'validations' do
+    let(:prt) { create :its90_prt, sub_range: 4 }
     it 'requires name to be present' do
-      expect(subject).to validate_presence_of :name
+      expect(prt).to validate_presence_of :name
     end
 
     it 'requires name to be unique' do
-      expect(subject).to validate_uniqueness_of :name
+      expect(prt).to validate_uniqueness_of :name
+    end
+
+    it 'requires sub_range to be present' do
+      expect(prt).to validate_presence_of :sub_range
     end
   end
 

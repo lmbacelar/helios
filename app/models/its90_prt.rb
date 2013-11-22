@@ -1,6 +1,7 @@
 class Its90Prt < ActiveRecord::Base
 
-  validates :name, presence: true, uniqueness: true
+  validates :name,      presence: true, uniqueness: true
+  validates :sub_range, presence: true
 
   #
   # ITS-90 CONSTANTS
