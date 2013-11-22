@@ -26,6 +26,12 @@ ActiveRecord::Schema.define(version: 20131121153951) do
     t.datetime "updated_at"
   end
 
+  create_table "instruments", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "its90_prts", force: true do |t|
     t.string   "name",                      null: false
     t.integer  "sub_range",                 null: false
@@ -55,5 +61,7 @@ ActiveRecord::Schema.define(version: 20131121153951) do
   end
 
   add_index "measurements", ["instrument_id"], name: "index_measurements_on_instrument_id", using: :btree
+
+  add_foreign_key "measurements", "instruments", name: "measurements_instrument_id_fk", dependent: :restrict
 
 end
