@@ -20,8 +20,8 @@ describe PrtMeasurement do
 
   context 'on ambiguous data' do
     it 'prioritizes temperature' do
-      m = create :prt_measurement, temperature: 0, resistance: 110
-      m.save
+      m = build :prt_measurement, temperature: 0, resistance: 110
+      m.valid?
       expect(m.temperature).to be_within(1e-4).of(0)
       expect(m.resistance ).to be_within(1e-4).of(100)
     end
@@ -35,7 +35,7 @@ describe PrtMeasurement do
 
   context 'resistance computation' do
     it 'is handled by the prt when getting' do
-      m = create :prt_measurement
+      m = build :prt_measurement
       expect(m.iec60751_prt).to receive(:r)
       m.resistance
     end
@@ -45,13 +45,13 @@ describe PrtMeasurement do
     it 'is handled by the PRT' do
       m = build :prt_measurement, temperature: nil, resistance: 100
       expect(m.iec60751_prt).to receive(:t90).with(100)
-      m.save
+      m.valid?
     end
 
     it 'sets the temperature' do
       m = build :prt_measurement, temperature: nil, resistance: 110
       m.iec60751_prt.stub(:t90).and_return(25.68)
-      m.save
+      m.valid?
       expect(m.temperature).to eq 25.68
     end
   end
