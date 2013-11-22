@@ -17,35 +17,35 @@ ActiveRecord::Schema.define(version: 20131121153951) do
   enable_extension "plpgsql"
 
   create_table "iec60751_prts", force: true do |t|
-    t.string   "name"
-    t.float    "r0",         default: 100.0
-    t.float    "a",          default: 0.0039083
-    t.float    "b",          default: -5.775e-07
-    t.float    "c",          default: -4.183e-12
+    t.string   "name",                            null: false
+    t.float    "r0",         default: 100.0,      null: false
+    t.float    "a",          default: 0.0039083,  null: false
+    t.float    "b",          default: -5.775e-07, null: false
+    t.float    "c",          default: -4.183e-12, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "its90_prts", force: true do |t|
-    t.string   "name"
-    t.integer  "sub_range"
-    t.float    "rtpw",       default: 25.0
-    t.float    "a",          default: 0.0
-    t.float    "b",          default: 0.0
-    t.float    "c",          default: 0.0
-    t.float    "d",          default: 0.0
-    t.float    "w660",       default: 0.0
-    t.float    "c1",         default: 0.0
-    t.float    "c2",         default: 0.0
-    t.float    "c3",         default: 0.0
-    t.float    "c4",         default: 0.0
-    t.float    "c5",         default: 0.0
+    t.string   "name",                      null: false
+    t.integer  "sub_range",                 null: false
+    t.float    "rtpw",       default: 25.0, null: false
+    t.float    "a",          default: 0.0,  null: false
+    t.float    "b",          default: 0.0,  null: false
+    t.float    "c",          default: 0.0,  null: false
+    t.float    "d",          default: 0.0,  null: false
+    t.float    "w660",       default: 0.0,  null: false
+    t.float    "c1",         default: 0.0,  null: false
+    t.float    "c2",         default: 0.0,  null: false
+    t.float    "c3",         default: 0.0,  null: false
+    t.float    "c4",         default: 0.0,  null: false
+    t.float    "c5",         default: 0.0,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "measurements", force: true do |t|
-    t.float    "value"
+    t.float    "value",         null: false
     t.string   "unit"
     t.string   "quantity"
     t.string   "type"

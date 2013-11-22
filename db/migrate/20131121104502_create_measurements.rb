@@ -1,7 +1,7 @@
 class CreateMeasurements < ActiveRecord::Migration
   def change
     create_table :measurements do |t|
-      t.float  :value, required: true
+      t.float  :value, null: false
       t.string :unit
       t.string :quantity
       t.string :type

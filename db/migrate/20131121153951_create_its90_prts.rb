@@ -1,19 +1,19 @@
 class CreateIts90Prts < ActiveRecord::Migration
   def change
     create_table :its90_prts do |t|
-      t.string  :name,      required: true
-      t.integer :sub_range, required: true
-      t.float   :rtpw,      required: true, default: 25.0
-      t.float   :a,         required: true, default:  0.0
-      t.float   :b,         required: true, default:  0.0
-      t.float   :c,         required: true, default:  0.0
-      t.float   :d,         required: true, default:  0.0
-      t.float   :w660,      required: true, default:  0.0
-      t.float   :c1,        required: true, default:  0.0
-      t.float   :c2,        required: true, default:  0.0
-      t.float   :c3,        required: true, default:  0.0
-      t.float   :c4,        required: true, default:  0.0
-      t.float   :c5,        required: true, default:  0.0
+      t.string  :name,      null: false
+      t.integer :sub_range, null: false
+      t.float   :rtpw,      null: false, default: 25.0
+      t.float   :a,         null: false, default:  0.0
+      t.float   :b,         null: false, default:  0.0
+      t.float   :c,         null: false, default:  0.0
+      t.float   :d,         null: false, default:  0.0
+      t.float   :w660,      null: false, default:  0.0
+      t.float   :c1,        null: false, default:  0.0
+      t.float   :c2,        null: false, default:  0.0
+      t.float   :c3,        null: false, default:  0.0
+      t.float   :c4,        null: false, default:  0.0
+      t.float   :c5,        null: false, default:  0.0
 
       t.timestamps
     end
