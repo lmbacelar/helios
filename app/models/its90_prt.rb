@@ -2,14 +2,19 @@ class Its90Prt < ActiveRecord::Base
 
   include RetryMethods
 
+  #
+  # ITS-90 SUB-RANGES
+  #
+  SUB_RANGES = 1..11
+
   validates :name,      presence: true, uniqueness: true
-  validates :sub_range, presence: true
+  validates :sub_range, presence: true, inclusion: { in: SUB_RANGES }
 
   #
   # ITS-90 CONSTANTS
   #
-  T90_RANGE = -259.4467..961.88
-  WR_RANGE  =  0.00119007..4.28642053
+  T90_RANGE  = -259.4467..961.88
+  WR_RANGE   =  0.00119007..4.28642053
 
   A = [ -2.13534729, 3.1832472,  -1.80143597,
          0.71727204, 0.50344027, -0.61899395,
@@ -93,5 +98,9 @@ class Its90Prt < ActiveRecord::Base
   def t90 res
     w = res / rtpw
     Its90Prt.t90r w - wdev(Its90Prt.t90r w)
+  end
+
+  def range
+    WDEV_EQUATIONS[sub_range - 1][:valid]
   end
 end

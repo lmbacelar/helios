@@ -1,13 +1,8 @@
 require 'spec_helper'
 require 'json'
 
-fixed_point_examples = JSON.parse(File.read('spec/assets/models/its90_prt/fp_examples.json'),  symbolize_names: true)
-range4_examples      = JSON.parse(File.read('spec/assets/models/its90_prt/r4_examples.json'),  symbolize_names: true)
-range4_sprt          = JSON.parse(File.read('spec/assets/models/its90_prt/r4_sprt.json')    ,  symbolize_names: true)
-range6_examples      = JSON.parse(File.read('spec/assets/models/its90_prt/r6_examples.json'),  symbolize_names: true)
-range6_sprt          = JSON.parse(File.read('spec/assets/models/its90_prt/r6_sprt.json')    ,  symbolize_names: true)
-t90_examples         = JSON.parse(File.read('spec/assets/models/its90_prt/t90_examples.json'), symbolize_names: true)
-ipq_sprt             = JSON.parse(File.read('spec/assets/models/its90_prt/ipq_sprt.json')    , symbolize_names: true)
+fixed_point_examples = 
+  JSON.parse( File.read('spec/assets/models/its90_prt/fp_examples.json'), symbolize_names: true)
 
 describe Its90Prt do
   context 'includes module' do
@@ -49,6 +44,10 @@ describe Its90Prt do
     it 'requires sub_range to be present' do
       expect(prt).to validate_presence_of :sub_range
     end
+
+    it 'requires sub_range to included in SUB_RANGES' do
+      expect(prt).to ensure_inclusion_of(:sub_range).in_range(Its90Prt::SUB_RANGES)
+    end
   end
 
   context 'reference funtions' do
@@ -81,6 +80,10 @@ describe Its90Prt do
 
   context 'deviation functions' do
     context 'wdev computation' do
+      range4_examples = 
+        JSON.parse(File.read('spec/assets/models/its90_prt/r4_examples.json'), symbolize_names: true)
+      range4_sprt = 
+        JSON.parse(File.read('spec/assets/models/its90_prt/r4_sprt.json'), symbolize_names: true)
       let(:prt4) { create :its90_prt, sub_range: 4, a: range4_sprt[:a], b:range4_sprt[:b] }
       range4_examples.each do |example|
         it "complies with NIST SP250-81 sample on range 4, #{example[:t90]} Celsius" do
@@ -88,6 +91,10 @@ describe Its90Prt do
         end
       end
       
+      range6_examples =
+        JSON.parse(File.read('spec/assets/models/its90_prt/r6_examples.json'), symbolize_names: true)
+      range6_sprt = 
+        JSON.parse(File.read('spec/assets/models/its90_prt/r6_sprt.json'), symbolize_names: true)
       let(:prt6) { create :its90_prt, sub_range: 6, a: range6_sprt[:a], b:range6_sprt[:b], c:range6_sprt[:c] }
       range6_examples.each do |example|
         it "complies with NIST SP250-81 sample on range 6, #{example[:t90]} Celsius" do
@@ -98,10 +105,25 @@ describe Its90Prt do
   end
 
   context 'temperature function' do
+    t90_examples = 
+      JSON.parse(File.read('spec/assets/models/its90_prt/t90_examples.json'), symbolize_names: true)
+    ipq_sprt = 
+      JSON.parse(File.read('spec/assets/models/its90_prt/ipq_sprt.json'), symbolize_names: true)
     let(:prt) { create :its90_prt, sub_range: 7, rtpw: ipq_sprt[:rtpw], a: ipq_sprt[:a], b:ipq_sprt[:b] }
     t90_examples.each do |example|
       it "complies with IPQ cert. 501.20/1241312 range 7, #{example[:t90]} Celsius" do
         expect(prt.t90 example[:res]).to be_within(0.0001).of(example[:t90])
+      end
+    end
+  end
+
+  context 'range function' do
+    sub_ranges = 
+      JSON.parse(File.read('spec/assets/models/its90_prt/sub_ranges.json'), symbolize_names: true)
+    sub_ranges.each do |example|
+      it "returns #{example[:t_min]}..#{example[:t_max]} for sub_range #{example[:sub_range]}" do
+        prt = build :its90_prt, sub_range: example[:sub_range]
+        expect(prt.range).to eq Range.new example[:t_min], example[:t_max]
       end
     end
   end

@@ -1,0 +1,13 @@
+[
+  { "sub_range":  1, "t_min": -259.4467, "t_max": 0.01     }, 
+  { "sub_range":  2, "t_min": -248.5939, "t_max": 0.01     },
+  { "sub_range":  3, "t_min": -218.7916, "t_max": 0.01     },
+  { "sub_range":  4, "t_min": -189.3442, "t_max": 0.01     },
+  { "sub_range":  5, "t_min":    0.0,    "t_max": 961.78   },
+  { "sub_range":  6, "t_min":    0.0,    "t_max": 660.323  },
+  { "sub_range":  7, "t_min":    0.0,    "t_max": 419.527  },
+  { "sub_range":  8, "t_min":    0.0,    "t_max": 231.928  },
+  { "sub_range":  9, "t_min":    0.0,    "t_max": 156.5985 },
+  { "sub_range": 10, "t_min":    0.0,    "t_max": 29.7646  },
+  { "sub_range": 11, "t_min":  -38.8344, "t_max": 29.7646  }
+] 
