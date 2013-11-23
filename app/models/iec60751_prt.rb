@@ -1,24 +1,31 @@
 class Iec60751Prt < ActiveRecord::Base
-
   include RetryMethods
-
-  MAX_ITERATIONS = 10
-  MAX_ERROR      = 1e-4
-  RANGE          = -200.10..850.10
-
-  has_many  :prt_measurements, foreign_key: :instrument_id,  dependent: :destroy
-
+  has_many  :measurements, as: :meter, dependent: :destroy
   validates :name, presence: true, uniqueness: true
  
-  def self.range
+  #
+  # VALID TEMPERATURE RANGE
+  #
+  RANGE = -200.10..850.10
+
+  def range
     RANGE
   end
 
+  #
+  # IEC 60751 R FUNCTION
+  #
   def r t90
     t90 >= 0 ?
       r0*(1 + a*t90 + b*t90**2) :
       r0*(1 + a*t90 + b*t90**2 - 100*c*t90**3 + c*t90**4)
   end
+
+  #
+  # R INVERSE FUNCTION COMPUTATION
+  #
+  MAX_ITERATIONS = 10
+  MAX_ERROR      = 1e-4
 
   def t90 r
     return 0 if r == r0

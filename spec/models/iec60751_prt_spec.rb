@@ -22,7 +22,7 @@ describe Iec60751Prt do
 
   context 'associations' do
     it 'has many PRT Measurements' do
-      expect(subject).to have_many(:prt_measurements).dependent(:destroy)
+      expect(subject).to have_many(:measurements).dependent(:destroy)
     end
   end
 
@@ -59,10 +59,16 @@ describe Iec60751Prt do
     end
 
     context 'non-standard coefficients' do
+      let(:prt) { build :iec60751_prt, r0: 101 }
       it 'yields 0.0 Celsius when resistance equals 101.0 Ohm on a PRT with r0 = 101.0 Ohm' do
-        expect(Iec60751Prt.new(r0: 101).t90 101).to be_within(1e-4).of(0)
+        expect(prt.t90 101).to be_within(1e-4).of(0)
       end
     end
   end
 
+  context 'range function' do
+    it 'returns -200.10..850.10' do
+      expect(Iec60751Prt.new.range).to eq (-200.10..850.10)
+    end
+  end
 end

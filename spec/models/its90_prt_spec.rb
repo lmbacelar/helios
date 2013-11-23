@@ -50,6 +50,12 @@ describe Its90Prt do
     end
   end
 
+  context 'associations' do
+    it 'has many PRT Measurements' do
+      expect(subject).to have_many(:measurements).dependent(:destroy)
+    end
+  end
+
   context 'reference funtions' do
     context 'wr computation' do
       fixed_point_examples.each do |example|
@@ -114,6 +120,12 @@ describe Its90Prt do
       it "complies with IPQ cert. 501.20/1241312 range 7, #{example[:t90]} Celsius" do
         expect(prt.t90 example[:res]).to be_within(0.0001).of(example[:t90])
       end
+    end
+  end
+
+  context 'resistance function' do
+    it 'implements #r function placeholder' do
+      expect(Its90Prt.new.r 0).to be_nil
     end
   end
 

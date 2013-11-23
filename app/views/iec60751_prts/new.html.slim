@@ -2,15 +2,16 @@ h1 New IEC 60751 Platinum Resistance Thermometer
 
 = simple_form_for @prt do |f|
   fieldset 
-    legend Details
     = f.error_notification
     = f.error :base
 
-    = f.input :name
+    section.form-inputs
+      = f.input :name
 
-    = f.input :r0
-    = f.input :a
-    = f.input :b
-    = f.input :c
+      = f.input :r0
+      = f.input :a
+      = f.input :b
+      = f.input :c
 
-    = f.button :submit, disable_with: 'Submitting...'
+    section.form-actions
+      = f.button :submit, data: { disable_with: 'Submitting...' }
