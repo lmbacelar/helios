@@ -5,10 +5,11 @@ class CreateMeasurements < ActiveRecord::Migration
       t.string      :unit
       t.string      :quantity
       t.string      :type
-      t.references  :instrument, index: true
-      t.foreign_key :instruments, dependent: :restrict
+      t.belongs_to  :meter, polymorphic: true
 
       t.timestamps
     end
+    add_index :measurements, [:meter_id, :meter_type]
+    # add_foreign_key :instruments, dependent: :restrict
   end
 end
