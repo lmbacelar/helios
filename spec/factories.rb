@@ -9,7 +9,9 @@ FactoryGirl.define do
 
   factory :prt_measurement do
     temperature 0
-    iec60751_prt
+    factory :iec60751_prt_measurement do
+      association :meter, factory: :iec60751_prt
+    end
   end
 
   factory :iec60751_prt do
