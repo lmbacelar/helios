@@ -123,7 +123,7 @@ describe Its90Prt do
     sub_ranges.each do |example|
       it "returns #{example[:t_min]}..#{example[:t_max]} for sub_range #{example[:sub_range]}" do
         prt = build :its90_prt, sub_range: example[:sub_range]
-        expect(prt.range).to eq Range.new example[:t_min], example[:t_max]
+        expect(prt.range).to eq example[:t_min]..example[:t_max]
       end
     end
   end
