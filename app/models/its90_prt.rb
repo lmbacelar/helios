@@ -1,6 +1,6 @@
 class Its90Prt < ActiveRecord::Base
-
   include RetryMethods
+  has_many  :measurements, as: :meter, dependent: :destroy
 
   #
   # ITS-90 SUB-RANGES
@@ -95,11 +95,22 @@ class Its90Prt < ActiveRecord::Base
     end
   end
 
+  #
+  # T90 / R FUNCTIONS
+  #
   def t90 res
     w = res / rtpw
     Its90Prt.t90r w - wdev(Its90Prt.t90r w)
   end
 
+  def r t90
+    # UNIMPLEMENTED
+    nil
+  end
+
+  #
+  # VALID TEMPERATURE RANGES
+  #
   def range
     WDEV_EQUATIONS[sub_range - 1][:valid]
   end
