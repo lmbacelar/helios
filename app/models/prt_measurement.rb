@@ -1,7 +1,4 @@
 class PrtMeasurement < TemperatureMeasurement
-  belongs_to :iec60751_prt, class_name: 'Iec60751Prt', 
-                            foreign_key: :instrument_id
-
   validate  :presence_of_temperature_or_resistance,
             :temperature_within_prt_range
 
@@ -12,19 +9,19 @@ class PrtMeasurement < TemperatureMeasurement
   end
 
   def resistance
-    temperature ? iec60751_prt.r(temperature) : @resistance
+    temperature ? meter.r(temperature) : @resistance
   end
 
 protected
   def update_temperature
     if temperature.blank? && resistance.present?
-      self.temperature = iec60751_prt.try(:t90, @resistance.to_f) 
+      self.temperature = meter.try(:t90, @resistance.to_f) 
     end
   end
   
   def temperature_within_prt_range
-    return unless temperature && iec60751_prt
-    if temperature < iec60751_prt.class.range.min || temperature > iec60751_prt.class.range.max
+    return unless temperature && meter
+    if temperature < meter.range.min || temperature > meter.range.max
       errors[:temperature] << 'not within range of PRT.'
     end
   end
