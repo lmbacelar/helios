@@ -3,13 +3,13 @@ Feature: ITS90 PRT Management
   In order  manage temperature standards 
   I want to list, create, read, update and destroy ITS-90 compliant PRT's
 
-  Scenario: List no PRTs when there are no PRTs
+  Scenario: List no ITS-90 PRTs when there are no ITS-90 PRTs
     Given I have no "ITS90 PRT"
     When  I visit the "ITS90 PRT" page
     Then  I should see "No Platinum Resistance Thermometers found" 
     And   I should see one "New PRT" link
     
-  Scenario: List all PRTs when there are PRTs
+  Scenario: List all ITS-90 PRTs when there are ITS-90 PRTs
     Given the following "ITS90 PRT" exist:
       | name | sub_range |
       | PRT1 | 7         | 
@@ -28,7 +28,7 @@ Feature: ITS90 PRT Management
     And   I should see "New PRT" before "Name"
     And   I should see "PRT1" before "New PRT"
 
-  Scenario: Access the new PRT form
+  Scenario: Access the new ITS-90 PRT form
     When  I visit the "ITS90 PRT" page
     And   I follow "New PRT"
     Then  I should be on the new "ITS90 PRT" page
@@ -38,7 +38,7 @@ Feature: ITS90 PRT Management
     And   I should see "W660"
     And   I should see /C1.*C2.*C3.*C4.*C5/
 
-  Scenario: Create new PRT with valid data
+  Scenario: Create new ITS-90 PRT with valid data
     Given I am on the new "ITS90 PRT" page
     When  I fill in "Name" with "PRTX"
     And   I fill in "Sub range" with "7"
@@ -47,7 +47,7 @@ Feature: ITS90 PRT Management
     And   I should see "PRTX"
     And   I should see "PRT was successfully created"
 
-  Scenario: Create new PRT with invalid data
+  Scenario: Create new ITS-90 PRT with invalid data
     Given I am on the new "ITS90 PRT" page
     And   I press "Create"
     Then  I should see "Please review the problems below"
@@ -55,7 +55,7 @@ Feature: ITS90 PRT Management
     And   I should see /Sub range\s*can't be blank/
     And   I should not see "PRT was successfully created"
 
-  Scenario: Show existing PRT
+  Scenario: Show existing ITS-90 PRT
     Given the following "ITS90 PRT" exist:
       | name | sub_range |
       | PRT1 | 7         | 
@@ -77,7 +77,7 @@ Feature: ITS90 PRT Management
     And   I follow "Back to PRT list"
     Then  I should be on the "ITS90 PRT" page
 
-  Scenario: Delete PRT
+  Scenario: Delete ITS-90 PRT
     Given the following "ITS90 PRT" exist:
       | name | sub_range |
       | PRT1 | 7         | 
