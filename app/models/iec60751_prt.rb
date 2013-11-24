@@ -1,6 +1,6 @@
 class Iec60751Prt < ActiveRecord::Base
   include RetryMethods
-  has_many  :measurements, as: :meter, dependent: :destroy
+  has_many  :measurements, as: :meter, class_name: 'PrtMeasurement', dependent: :destroy
   validates :name, presence: true, uniqueness: true
  
   #
