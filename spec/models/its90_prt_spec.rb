@@ -52,7 +52,7 @@ describe Its90Prt do
 
   context 'associations' do
     it 'has many PRT Measurements' do
-      expect(subject).to have_many(:measurements).dependent(:destroy)
+      expect(subject).to have_many(:measurements).dependent(:destroy).class_name('PrtMeasurement')
     end
   end
 
