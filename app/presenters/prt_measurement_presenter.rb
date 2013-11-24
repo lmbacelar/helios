@@ -6,6 +6,8 @@ class PrtMeasurementPresenter < MeasurementPresenter
   end
 
   def resistance
-    format "%.4f Ohm", measurement.resistance
+    measurement.resistance ?
+      format("%.4f Ohm", measurement.resistance) :
+      '-----'
   end
 end

@@ -14,5 +14,15 @@ describe PrtMeasurementPresenter do
   it 'presents temperature with 3 decimals and unit' do
    expect(presenter.temperature).to eq '0.000 ºC' 
   end
+
+  it 'presents resistance with 4 decimals and unit' do
+   expect(presenter.resistance).to eq '100.0000 Ohm' 
+  end
+
+  it 'presents missing resistance as "-----"' do
+    no_resistance_measurement = double(PrtMeasurement, resistance: nil)
+    presenter = PrtMeasurementPresenter.new no_resistance_measurement, view
+    expect(presenter.resistance).to eq '-----'
+  end
 end
 
