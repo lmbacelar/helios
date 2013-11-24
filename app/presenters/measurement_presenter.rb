@@ -10,4 +10,10 @@ class MeasurementPresenter < BasePresenter
   def time
     measurement.created_at.strftime "%H:%M:%S"
   end
+
+  def destroy_link
+    h.link_to 'Destroy',  [measurement.meter, measurement], 
+                          method: :delete,
+                          data: { confirm: 'Are you sure?' }
+  end
 end
