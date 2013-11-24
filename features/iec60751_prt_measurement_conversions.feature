@@ -1,4 +1,4 @@
-Feature: PRT Measurement Conversions
+Feature: IEC 60751 PRT Measurement Conversions
 
     As a   temperature metrologist
     In     order to use IEC 60751 compliant PRT's
