@@ -1,0 +1,8 @@
+= form_tag [@meter, :measurements], method: :get do
+  fieldset 
+    legend Search
+    label From
+    = text_field_tag :from, @from
+    label To
+    = text_field_tag :to, @to
+    = submit_tag 'Refresh'

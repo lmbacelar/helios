@@ -1,4 +1,4 @@
-h1 New PRT Measurement
+h1 New Measurement
 
 = simple_form_for [@meter, @measurement] do |f|
   fieldset 
@@ -6,9 +6,9 @@ h1 New PRT Measurement
     = f.error :base
 
     section.form-inputs
-      = f.input :temperature
-      span or
-      = f.input :resistance
+      = f.input :quantity
+      = f.input :value
+      = f.input :unit
 
     section.form-actions
       = f.button :submit, data: { disable_with: 'Submitting...' }

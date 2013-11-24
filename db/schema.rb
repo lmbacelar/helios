@@ -28,14 +28,6 @@ ActiveRecord::Schema.define(version: 20131121153951) do
 
   add_index "iec60751_prts", ["name"], name: "index_iec60751_prts_on_name", unique: true, using: :btree
 
-  create_table "instruments", force: true do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "instruments", ["name"], name: "index_instruments_on_name", unique: true, using: :btree
-
   create_table "its90_prts", force: true do |t|
     t.string   "name",                      null: false
     t.integer  "sub_range",                 null: false

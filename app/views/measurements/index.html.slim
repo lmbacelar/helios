@@ -1,0 +1,17 @@
+h1 Measurements
+
+= render partial: 'search_from_to'
+
+- if @measurements.empty?
+  p No measurements found.
+
+- else
+  = link_to 'New Measurement', [:new, @meter, @measurement_type]
+
+  table
+    thead
+      = render partial: "#{@measurements.first.type.tableize}/table_header"
+    tbody
+      = render @measurements
+
+= link_to 'New Measurement', [:new, @meter, @measurement_type]
