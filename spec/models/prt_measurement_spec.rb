@@ -28,15 +28,15 @@ describe PrtMeasurement do
    end
 
   context 'associations' do
-    it 'belongs to a meter' do
-      expect(subject).to belong_to :meter
+    it 'belongs to a transfer function' do
+      expect(subject).to belong_to :transfer_function
     end
   end
 
   context 'resistance computation' do
     it 'is handled by the prt when getting' do
       m = build :iec60751_prt_measurement
-      expect(m.meter).to receive(:r)
+      expect(m.transfer_function).to receive(:r)
       m.resistance
     end
   end
@@ -44,13 +44,13 @@ describe PrtMeasurement do
   context 'temperature computation from resistance' do
     it 'is handled by the PRT' do
       m = build :iec60751_prt_measurement, temperature: nil, resistance: 100
-      expect(m.meter).to receive(:t90).with(100)
+      expect(m.transfer_function).to receive(:t90).with(100)
       m.valid?
     end
 
     it 'sets the temperature' do
       m = build :iec60751_prt_measurement, temperature: nil, resistance: 110
-      m.meter.stub(:t90).and_return(25.68)
+      m.transfer_function.stub(:t90).and_return(25.68)
       m.valid?
       expect(m.temperature).to eq 25.68
     end

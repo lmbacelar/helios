@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Measurement do
   context 'associations' do
-    it 'belongs to instrument' do
-      expect(subject).to belong_to :meter
+    it 'belongs to transfer function' do
+      expect(subject).to belong_to :transfer_function
     end
   end
 

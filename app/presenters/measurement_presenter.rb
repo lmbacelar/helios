@@ -12,7 +12,7 @@ class MeasurementPresenter < BasePresenter
   end
 
   def destroy_link
-    h.link_to 'Destroy',  [measurement.meter, measurement], 
+    h.link_to 'Destroy',  [measurement.transfer_function, measurement], 
                           method: :delete,
                           data: { confirm: 'Are you sure?' }
   end

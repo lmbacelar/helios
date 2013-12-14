@@ -1,6 +1,6 @@
 class Its90Prt < ActiveRecord::Base
   include RetryMethods
-  has_many  :measurements, as: :meter, class_name: 'PrtMeasurement', dependent: :destroy
+  has_many  :measurements, as: :transfer_function, class_name: 'PrtMeasurement', dependent: :destroy
 
   #
   # ITS-90 SUB-RANGES

@@ -49,16 +49,16 @@ ActiveRecord::Schema.define(version: 20131121153951) do
   add_index "its90_prts", ["name"], name: "index_its90_prts_on_name", unique: true, using: :btree
 
   create_table "measurements", force: true do |t|
-    t.float    "value",      null: false
+    t.float    "value",                  null: false
     t.string   "unit"
     t.string   "quantity"
     t.string   "type"
-    t.integer  "meter_id"
-    t.string   "meter_type"
+    t.integer  "transfer_function_id"
+    t.string   "transfer_function_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "measurements", ["meter_id", "meter_type"], name: "index_measurements_on_meter_id_and_meter_type", using: :btree
+  add_index "measurements", ["transfer_function_id", "transfer_function_type"], name: "index_measurements_on_transfer_function", using: :btree
 
 end

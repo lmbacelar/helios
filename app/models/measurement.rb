@@ -1,5 +1,5 @@
 class Measurement < ActiveRecord::Base
-  belongs_to :meter, polymorphic: true
+  belongs_to :transfer_function, polymorphic: true
 
   validates :value, presence: true, numericality: true
 

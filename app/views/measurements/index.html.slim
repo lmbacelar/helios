@@ -6,7 +6,7 @@ h1 Measurements
   p No measurements found.
 
 - else
-  = link_to 'New Measurement', [:new, @meter, @measurement_type]
+  = link_to 'New Measurement', [:new, @transfer_function, @measurement_type]
 
   table
     thead
@@ -14,4 +14,4 @@ h1 Measurements
     tbody
       = render @measurements
 
-= link_to 'New Measurement', [:new, @meter, @measurement_type]
+= link_to 'New Measurement', [:new, @transfer_function, @measurement_type]
