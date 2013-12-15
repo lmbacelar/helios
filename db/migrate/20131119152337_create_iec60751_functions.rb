@@ -1,6 +1,6 @@
-class CreateIec60751Prts < ActiveRecord::Migration
+class CreateIec60751Functions < ActiveRecord::Migration
   def change
-    create_table :iec60751_prts do |t|
+    create_table :iec60751_functions do |t|
       t.string :name, null: false
       t.float  :r0,   null: false, default: 100.0
       t.float  :a,    null: false, default:   3.9083e-03

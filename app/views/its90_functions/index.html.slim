@@ -1,0 +1,10 @@
+h1 ITS-90 Functions
+
+- if @functions.empty?
+  p No ITS-90 Functions found.
+  
+- else
+  = link_to 'New Function', new_its90_function_path
+  = render @functions
+
+= link_to 'New Function', new_its90_function_path

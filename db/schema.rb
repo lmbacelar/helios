@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20131121153951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "iec60751_prts", force: true do |t|
+  create_table "iec60751_functions", force: true do |t|
     t.string   "name",                            null: false
     t.float    "r0",         default: 100.0,      null: false
     t.float    "a",          default: 0.0039083,  null: false
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20131121153951) do
     t.datetime "updated_at"
   end
 
-  add_index "iec60751_prts", ["name"], name: "index_iec60751_prts_on_name", unique: true, using: :btree
+  add_index "iec60751_functions", ["name"], name: "index_iec60751_functions_on_name", unique: true, using: :btree
 
-  create_table "its90_prts", force: true do |t|
+  create_table "its90_functions", force: true do |t|
     t.string   "name",                      null: false
     t.integer  "sub_range",                 null: false
     t.float    "rtpw",       default: 25.0, null: false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20131121153951) do
     t.datetime "updated_at"
   end
 
-  add_index "its90_prts", ["name"], name: "index_its90_prts_on_name", unique: true, using: :btree
+  add_index "its90_functions", ["name"], name: "index_its90_functions_on_name", unique: true, using: :btree
 
   create_table "measurements", force: true do |t|
     t.float    "value",                  null: false

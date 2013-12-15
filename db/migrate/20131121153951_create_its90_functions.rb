@@ -1,6 +1,6 @@
-class CreateIts90Prts < ActiveRecord::Migration
+class CreateIts90Functions < ActiveRecord::Migration
   def change
-    create_table :its90_prts do |t|
+    create_table :its90_functions do |t|
       t.string  :name,      null: false
       t.integer :sub_range, null: false
       t.float   :rtpw,      null: false, default: 25.0

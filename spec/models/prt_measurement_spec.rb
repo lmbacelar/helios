@@ -8,9 +8,9 @@ describe PrtMeasurement do
       expect(build :iec60751_prt_measurement, temperature:  0).to be_valid
     end
 
-    it 'temperature range to be within IEC 60751 PRT range' do
-      min = Iec60751Prt.new.range.min
-      max = Iec60751Prt.new.range.max
+    it 'temperature range to be within Transfer Function range' do
+      min = Iec60751Function.new.range.min
+      max = Iec60751Function.new.range.max
       expect(build :iec60751_prt_measurement, temperature: min - 0.01).not_to be_valid
       expect(build :iec60751_prt_measurement, temperature: min       ).to be_valid
       expect(build :iec60751_prt_measurement, temperature: max       ).to be_valid
@@ -28,13 +28,13 @@ describe PrtMeasurement do
    end
 
   context 'associations' do
-    it 'belongs to a transfer function' do
+    it 'belongs to a Transfer Function' do
       expect(subject).to belong_to :transfer_function
     end
   end
 
   context 'resistance computation' do
-    it 'is handled by the prt when getting' do
+    it 'is handled by the Transfer Function when getting' do
       m = build :iec60751_prt_measurement
       expect(m.transfer_function).to receive(:r)
       m.resistance
@@ -42,7 +42,7 @@ describe PrtMeasurement do
   end
 
   context 'temperature computation from resistance' do
-    it 'is handled by the PRT' do
+    it 'is handled by the Transfer Function' do
       m = build :iec60751_prt_measurement, temperature: nil, resistance: 100
       expect(m.transfer_function).to receive(:t90).with(100)
       m.valid?

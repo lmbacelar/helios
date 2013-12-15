@@ -10,15 +10,15 @@ FactoryGirl.define do
   factory :prt_measurement do
     temperature 0
     factory :iec60751_prt_measurement do
-      association :transfer_function, factory: :iec60751_prt
+      association :transfer_function, factory: :iec60751_function
     end
   end
 
-  factory :iec60751_prt do
-    sequence(:name) { |n| "PRT#{n}" }
+  factory :iec60751_function do
+    sequence(:name) { |n| "FUNCTION#{n}" }
   end
 
-  factory :its90_prt do
-    sequence(:name) { |n| "PRT#{n}" }
+  factory :its90_function do
+    sequence(:name) { |n| "FUNCTION#{n}" }
   end
 end

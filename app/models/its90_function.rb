@@ -1,4 +1,4 @@
-class Its90Prt < ActiveRecord::Base
+class Its90Function < ActiveRecord::Base
   include RetryMethods
   has_many  :measurements, as: :transfer_function, class_name: 'PrtMeasurement', dependent: :destroy
 
@@ -78,7 +78,7 @@ class Its90Prt < ActiveRecord::Base
   def wdev t90
     equation = WDEV_EQUATIONS[sub_range - 1]
     return nil unless equation[:valid].include? t90
-    wr_t90 = Its90Prt.wr t90
+    wr_t90 = Its90Function.wr t90
     case sub_range
     when 1..4
       wdev  = a * (wr_t90 - 1)
@@ -100,7 +100,7 @@ class Its90Prt < ActiveRecord::Base
   #
   def t90 res
     w = res / rtpw
-    Its90Prt.t90r w - wdev(Its90Prt.t90r w)
+    Its90Function.t90r w - wdev(Its90Function.t90r w)
   end
 
   def r t90

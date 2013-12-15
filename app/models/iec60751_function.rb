@@ -1,4 +1,4 @@
-class Iec60751Prt < ActiveRecord::Base
+class Iec60751Function < ActiveRecord::Base
   include RetryMethods
   has_many  :measurements, as: :transfer_function, class_name: 'PrtMeasurement', dependent: :destroy
   validates :name, presence: true, uniqueness: true

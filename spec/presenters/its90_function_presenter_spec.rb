@@ -1,23 +1,23 @@
 require 'spec_helper'
 
-describe Its90PrtPresenter do
+describe Its90FunctionPresenter do
   include ActionView::TestCase::Behavior
   
-  let(:prt) do
-    double(Its90Prt, name: 'PRT01', 
-                     sub_range: 1,
-                     rtpw: 25, 
-                     a: 0, b: 0, c: 0, d: 0, w660: 0,
-                     c1: 0, c2: 0, c3: 0, c4: 0, c5: 0)
+  let(:function) do
+    double(Its90Function, name: 'FUNCTION01', 
+                          sub_range: 1,
+                          rtpw: 25, 
+                          a: 0, b: 0, c: 0, d: 0, w660: 0,
+                          c1: 0, c2: 0, c3: 0, c4: 0, c5: 0)
   end
-  let(:presenter) { Its90PrtPresenter.new prt, view }
+  let(:presenter) { Its90FunctionPresenter.new function, view }
 
-  it 'delegates name presentation to Its90Prt' do
-   expect(presenter.name).to eq prt.name
+  it 'delegates name presentation to Its90Function' do
+   expect(presenter.name).to eq function.name
   end
 
-  it 'delegates sub_range presentation to Its90Prt' do
-   expect(presenter.sub_range).to eq prt.sub_range
+  it 'delegates sub_range presentation to Its90Function' do
+   expect(presenter.sub_range).to eq function.sub_range
   end
 
   it 'presents rtpw with 6 decimals and unit' do

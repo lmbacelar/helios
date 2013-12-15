@@ -1,0 +1,17 @@
+- present @function do |function|
+  h1 IEC 60751 Function
+  section
+    dl
+      dt Name
+      dd= function.name
+  section
+    dl
+      dt R0
+      dd= function.r0
+      dt A
+      dd= function.a
+      dt B
+      dd= function.b
+      dt C
+      dd= function.c
+  = link_to 'Back to IEC 60751 Function list', iec60751_functions_path

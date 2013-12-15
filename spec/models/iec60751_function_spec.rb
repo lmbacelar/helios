@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'json'
 
-examples = JSON.parse(File.read('spec/assets/models/iec60751_prt/examples.json'), symbolize_names: true)
+examples = JSON.parse(File.read('spec/assets/models/iec60751_function/examples.json'), symbolize_names: true)
 
-describe Iec60751Prt do
+describe Iec60751Function do
   context 'includes module' do
     it 'RetryMethods' do
-      expect(Iec60751Prt.included_modules).to include RetryMethods
+      expect(Iec60751Function.included_modules).to include RetryMethods
     end
   end
 
@@ -28,47 +28,47 @@ describe Iec60751Prt do
 
   context 'resistance computation' do
     context 'standard coefficients' do
-      let(:prt) { build :iec60751_prt }
+      let(:function) { build :iec60751_function }
       examples.each do |example|
         it "yields #{example[:r]} Ohm when t90 equals #{example[:t90]} Celsius" do
-          expect(prt.r example[:t90]).to be_within(1e-4).of(example[:r])
+          expect(function.r example[:t90]).to be_within(1e-4).of(example[:r])
         end 
       end 
     end
 
     context 'non-standard coefficients' do
-      let(:prt) { build :iec60751_prt, r0: 101 }
-      it 'yields 101.0 Ohm when temperature equals 0.0 Celsius on a PRT with r0 = 101.0 Ohm' do
-        expect(prt.r 0).to be_within(1e-4).of(101)
+      let(:function) { build :iec60751_function, r0: 101 }
+      it 'yields 101.0 Ohm when temperature equals 0.0 Celsius on a FUNCTION with r0 = 101.0 Ohm' do
+        expect(function.r 0).to be_within(1e-4).of(101)
       end
     end
   end
 
   context 'temperature computation' do
     it 'yields complex temperatures as NaN' do
-      expect(Iec60751Prt.new.t90 1000).to be Float::NAN
+      expect(Iec60751Function.new.t90 1000).to be Float::NAN
     end
 
     context 'standard coefficients' do
-      let(:prt) { build :iec60751_prt }
+      let(:function) { build :iec60751_function }
       examples.each do |example|
         it "yields #{example[:t90]} Celius when resistance equals #{example[:r]} Ohm" do
-          expect(prt.t90 example[:r]).to be_within(1e-4).of(example[:t90])
+          expect(function.t90 example[:r]).to be_within(1e-4).of(example[:t90])
         end
       end
     end
 
     context 'non-standard coefficients' do
-      let(:prt) { build :iec60751_prt, r0: 101 }
-      it 'yields 0.0 Celsius when resistance equals 101.0 Ohm on a PRT with r0 = 101.0 Ohm' do
-        expect(prt.t90 101).to be_within(1e-4).of(0)
+      let(:function) { build :iec60751_function, r0: 101 }
+      it 'yields 0.0 Celsius when resistance equals 101.0 Ohm on a FUNCTION with r0 = 101.0 Ohm' do
+        expect(function.t90 101).to be_within(1e-4).of(0)
       end
     end
   end
 
   context 'range function' do
     it 'returns -200.10..850.10' do
-      expect(Iec60751Prt.new.range).to eq (-200.10..850.10)
+      expect(Iec60751Function.new.range).to eq (-200.10..850.10)
     end
   end
 end
