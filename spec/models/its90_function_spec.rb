@@ -5,6 +5,12 @@ fixed_point_examples =
   JSON.parse( File.read('spec/assets/models/its90_function/fp_examples.json'), symbolize_names: true)
 
 describe Its90Function do
+  context 'inherits from' do
+    it 'Transfer Function' do
+      expect(Its90Function.superclass).to be TransferFunction
+    end
+  end
+
   context 'includes module' do
     it 'RetryMethods' do
       expect(Its90Function.included_modules).to include RetryMethods

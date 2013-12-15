@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Measurement do
   context 'associations' do
     it 'belongs to transfer function' do
+      pending 'this cannot be tested with belong_to matcher since it is not a full belong_to association. Refactor tests'
       expect(subject).to belong_to :transfer_function
     end
   end

@@ -27,12 +27,6 @@ describe PrtMeasurement do
     end
    end
 
-  context 'associations' do
-    it 'belongs to a Transfer Function' do
-      expect(subject).to belong_to :transfer_function
-    end
-  end
-
   context 'resistance computation' do
     it 'is handled by the Transfer Function when getting' do
       m = build :iec60751_prt_measurement

@@ -4,6 +4,12 @@ require 'json'
 examples = JSON.parse(File.read('spec/assets/models/iec60751_function/examples.json'), symbolize_names: true)
 
 describe Iec60751Function do
+  context 'inherits from' do
+    it 'Transfer Function' do
+      expect(Iec60751Function.superclass).to be TransferFunction
+    end
+  end
+
   context 'includes module' do
     it 'RetryMethods' do
       expect(Iec60751Function.included_modules).to include RetryMethods

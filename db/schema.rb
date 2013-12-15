@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121153951) do
+ActiveRecord::Schema.define(version: 20131121184502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,16 +49,17 @@ ActiveRecord::Schema.define(version: 20131121153951) do
   add_index "its90_functions", ["name"], name: "index_its90_functions_on_name", unique: true, using: :btree
 
   create_table "measurements", force: true do |t|
-    t.float    "value",                  null: false
+    t.float    "value",                null: false
     t.string   "unit"
     t.string   "quantity"
     t.string   "type"
-    t.integer  "transfer_function_id"
-    t.string   "transfer_function_type"
+    t.integer  "its90_function_id"
+    t.integer  "iec60751_function_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "measurements", ["transfer_function_id", "transfer_function_type"], name: "index_measurements_on_transfer_function", using: :btree
+  add_foreign_key "measurements", "iec60751_functions", name: "measurements_iec60751_function_id_fk", dependent: :restrict
+  add_foreign_key "measurements", "its90_functions", name: "measurements_its90_function_id_fk", dependent: :restrict
 
 end
