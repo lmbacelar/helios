@@ -1,29 +1,36 @@
 module Mti
   def belongs_to_mti parent
-    # set belongs_to associations with children
-    children = children_from parent
-    children.each { |child| belongs_to child }
+    belongs_to_all children_from parent
+    define_reader_for parent
+    define_writer_for parent
+  end
 
-    # define parent association reader
+  def assignment_method klass
+    "#{symbolize_name(klass)}="
+  end
+
+private
+  def belongs_to_all models
+    models.each { |model| belongs_to model }
+  end
+
+  def define_reader_for parent
+    children = children_from parent
     define_method(parent) do
       children.collect{ |child| self.send child }.compact.first
     end
-
-    # define parent association writer
-    define_method("#{parent}=") do |child|
-      self.send self.class.child_assignment_method(child.class), child
-    end
   end
 
-  def child_assignment_method klass
-    "#{symbolize_name(klass)}="
+  def define_writer_for parent
+    define_method("#{parent}=") do |child|
+      self.send self.class.assignment_method(child.class), child
+    end
   end
 
   def children_from parent
     parent.to_s.classify.constantize.descendants.collect{ |child| symbolize_name child }.compact
   end
 
-  private
   def symbolize_name klass
     klass.to_s.split('::').last.underscore.to_sym
   end
