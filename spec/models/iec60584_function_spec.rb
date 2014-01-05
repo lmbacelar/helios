@@ -103,17 +103,16 @@ describe Iec60584Function do
     end
   end
 
-  # TODO:
-  #   1. validate emf deviation function and corrections qith some real data
   context 'temperature function' do
-    # ipq_sprt = 
-    #   JSON.parse(File.read('spec/assets/models/its90_function/ipq_sprt.json'), symbolize_names: true)
-    # let(:function) { create :its90_function, sub_range: 7, rtpw: ipq_sprt[:rtpw], a: ipq_sprt[:a], b:ipq_sprt[:b] }
-    # t90_examples.each do |example|
-    #   it "complies with IPQ cert. 501.20/1241312 range 7, #{example[:t90]} Celsius" do
-    #     expect(function.t90 example[:res]).to be_within(0.0001).of(example[:t90])
-    #   end
-    # end
+    npl_tc = JSON.parse(File.read('spec/assets/models/iec60584_function/npl_tc.json'), symbolize_names: true)
+    let(:function) { create :iec60584_function, type: npl_tc[:type].downcase.to_sym,
+                                                a3: npl_tc[:a3], a2: npl_tc[:a2], a1: npl_tc[:a1], a0: npl_tc[:a0] }
+    npl_tc_examples = JSON.parse(File.read('spec/assets/models/iec60584_function/npl_tc_examples.json'), symbolize_names: true)
+    npl_tc_examples.each do |example|
+      it "complies with NPL cert. 09/13/A, #{example[:t90]} Celsius" do
+        expect(function.t90 example[:emf]).to be_within(0.001).of(example[:t90])
+      end
+    end
   end
 
   context 'emf function' do
