@@ -9,12 +9,14 @@ Feature: IEC 60584 Function Management
     Then  I should see "No IEC 60584 Functions found" 
     And   I should see one "New Function" link
     
-  Scenario: List all IEC 60584 Functions when there are IEC 60584 Functions
-    Given the "IEC 60584 Function" with name "FNC1" exists
-    And   the "IEC 60584 Function" with name "FNC2" exists
-    When  I visit the "IEC 60584 Function" page
-    Then  I should see "Name" before "FNC1"
-    And   I should see "FNC2"
+  # Scenario: List all IEC 60584 Functions when there are IEC 60584 Functions
+  #   Given the following "IEC 60584 Function" exist:
+  #     | name | type |
+  #     | FNC1 | K    | 
+  #     | FNC2 | T    | 
+  #   When  I visit the "IEC 60584 Function" page
+  #   Then  I should see "Name" before "FNC1"
+  #   And   I should see "FNC2"
 
   # Scenario: Displays New Function links above and below existing Functions
   #   Given the "IEC 60584 Function" with name "FNC1" exists
