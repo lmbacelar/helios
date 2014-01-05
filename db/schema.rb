@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121184502) do
+ActiveRecord::Schema.define(version: 20140104205926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "iec60584_functions", force: true do |t|
+    t.string   "name",                     null: false
+    t.string   "type",                     null: false
+    t.float    "a3",         default: 0.0, null: false
+    t.float    "a2",         default: 0.0, null: false
+    t.float    "a1",         default: 0.0, null: false
+    t.float    "a0",         default: 0.0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "iec60584_functions", ["name"], name: "index_iec60584_functions_on_name", unique: true, using: :btree
 
   create_table "iec60751_functions", force: true do |t|
     t.string   "name",                            null: false

@@ -2,4 +2,4 @@
 
 set -e
 
-cucumber --drb $*
+bundle exec cucumber $*

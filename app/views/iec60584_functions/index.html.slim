@@ -1,0 +1,10 @@
+h1 IEC 60584 Functions
+
+- if @functions.empty?
+  p No IEC 60584 Functions found.
+  
+- else
+  = link_to 'New Function', new_iec60584_function_path
+  = render @functions
+
+= link_to 'New Function', new_iec60584_function_path

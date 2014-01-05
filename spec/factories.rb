@@ -18,6 +18,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "FUNCTION#{n}" }
   end
 
+  factory :iec60584_function do
+    sequence(:name) { |n| "FUNCTION#{n}" }
+  end
+
   factory :its90_function do
     sequence(:name) { |n| "FUNCTION#{n}" }
   end
