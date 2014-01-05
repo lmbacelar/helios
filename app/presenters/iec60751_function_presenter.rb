@@ -1,8 +1,4 @@
-class Iec60751FunctionPresenter < BasePresenter
-  presents :function
-
-  delegate :name, to: :function
-
+class Iec60751FunctionPresenter < FunctionPresenter
   def r0
     format "%.4f Ohm", function.r0
   end
@@ -17,13 +13,5 @@ class Iec60751FunctionPresenter < BasePresenter
 
   def c
     format "%+.5E", function.c
-  end
-
-  def show_link
-    h.link_to 'Details', function
-  end
-
-  def destroy_link
-    h.link_to 'Destroy', function, method: :delete, data: { confirm: 'Are you sure?' }
   end
 end

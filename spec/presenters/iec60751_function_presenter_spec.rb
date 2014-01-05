@@ -10,10 +10,6 @@ describe Iec60751FunctionPresenter do
   end
   let(:presenter) { Iec60751FunctionPresenter.new function, view }
 
-  it 'delegates name presentation to Iec60751Function' do
-   expect(presenter.name).to eq function.name
-  end
-
   it 'presents r0 with 4 decimals and unit' do
     expect(presenter.r0).to eq '100.0000 Ohm'
   end

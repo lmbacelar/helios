@@ -1,7 +1,5 @@
-class Its90FunctionPresenter < BasePresenter
-  presents :function
-
-  delegate :name, :sub_range, to: :function
+class Its90FunctionPresenter < FunctionPresenter
+  delegate :sub_range, to: :function
 
   def rtpw
     format "%.6f Ohm", function.rtpw
@@ -45,13 +43,5 @@ class Its90FunctionPresenter < BasePresenter
 
   def c5
     format "%+.6E", function.c5
-  end
-
-  def show_link
-    h.link_to 'Details', function
-  end
-
-  def destroy_link
-    h.link_to 'Destroy', function, method: :delete, data: { confirm: 'Are you sure?' }
   end
 end

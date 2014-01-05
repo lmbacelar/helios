@@ -12,10 +12,6 @@ describe Its90FunctionPresenter do
   end
   let(:presenter) { Its90FunctionPresenter.new function, view }
 
-  it 'delegates name presentation to Its90Function' do
-   expect(presenter.name).to eq function.name
-  end
-
   it 'delegates sub_range presentation to Its90Function' do
    expect(presenter.sub_range).to eq function.sub_range
   end
