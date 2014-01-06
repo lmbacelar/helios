@@ -1,0 +1,21 @@
+- present @function do |function|
+  h1 IEC 60584 Function
+  section
+    dl
+      dt Name
+      dd= function.name
+  section
+    dl
+      dt Type
+      dd= function.type
+  section
+    dl
+      dt a3
+      dd= function.a3
+      dt a2
+      dd= function.a2
+      dt a1
+      dd= function.a1
+      dt a0
+      dd= function.a0
+  = link_to 'Back to IEC 60584 Function list', iec60584_functions_path
