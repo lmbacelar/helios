@@ -15,7 +15,7 @@ describe Iec60584Function do
   end
 
   context 'defaults' do
-    let(:function) { create :iec60584_function, type: :k }
+    let(:function) { create :iec60584_function, type: 'K' }
     it 'correction coefficients to 0.0' do
       expect(function.a3).to eq 0
       expect(function.a2).to eq 0
@@ -25,7 +25,7 @@ describe Iec60584Function do
   end
 
   context 'validations' do
-    let(:function) { create :iec60584_function, type: :k }
+    let(:function) { create :iec60584_function, type: 'K'}
     it 'requires name to be present' do
       expect(function).to validate_presence_of :name
     end
@@ -55,9 +55,10 @@ describe Iec60584Function do
     context 'direct (temperature => emf)' do
       Iec60584Function::TYPES.each do |type|
         context "on a type #{type} thermocouple" do
-          let(:function) { create :iec60584_function, type: type.downcase.to_sym }
+          let(:function) { create :iec60584_function, type: type }
 
-          examples = JSON.parse(File.read("spec/assets/models/iec60584_function/examples_#{type}.json"), symbolize_names: true)
+          examples = JSON.parse(File.read("spec/assets/models/iec60584_function/examples_#{type.downcase}.json"),
+                                symbolize_names: true)
           examples.each do |example|
             it "yields #{example[:emf]} mV when t90 equals #{example[:t90]} Celsius" do
               expect(function.emfr example[:t90]).to be_within(0.001).of(example[:emf])
@@ -80,11 +81,12 @@ describe Iec60584Function do
       #   2. Find approximation functions that can invert type E, N, K, T TC's down to -270 ºC
       #
       Iec60584Function::TYPES.each do |type|
-        unless type == :c
+        unless type == 'C'
           context "on a type #{type} thermocouple" do
-            let(:function) { build :iec60584_function, type: type.downcase.to_sym }
+            let(:function) { build :iec60584_function, type: type }
 
-            examples = JSON.parse(File.read("spec/assets/models/iec60584_function/examples_#{type}.json"), symbolize_names: true)
+            examples = JSON.parse(File.read("spec/assets/models/iec60584_function/examples_#{type.downcase}.json"),
+                                  symbolize_names: true)
             examples.each do |example|
               unless example[:t90] == -270.0 
                 it "should be inverse of direct function for #{example[:t90]} Celsius" do
@@ -105,7 +107,7 @@ describe Iec60584Function do
 
   context 'temperature function' do
     npl_tc = JSON.parse(File.read('spec/assets/models/iec60584_function/npl_tc.json'), symbolize_names: true)
-    let(:function) { create :iec60584_function, type: npl_tc[:type].downcase.to_sym,
+    let(:function) { create :iec60584_function, type: npl_tc[:type],
                                                 a3: npl_tc[:a3], a2: npl_tc[:a2], a1: npl_tc[:a1], a0: npl_tc[:a0] }
     npl_tc_examples = JSON.parse(File.read('spec/assets/models/iec60584_function/npl_tc_examples.json'), symbolize_names: true)
     npl_tc_examples.each do |example|
@@ -125,7 +127,7 @@ describe Iec60584Function do
     examples = JSON.parse(File.read("spec/assets/models/iec60584_function/ranges.json"), symbolize_names: true)
     examples.each do |example|
       context "on a type #{example[:type]} thermocouple" do
-        let(:function) { create :iec60584_function, type: example[:type].downcase.to_sym }
+        let(:function) { create :iec60584_function, type: example[:type]}
 
         it 'returns -200.10..850.10' do
           expect(function.range).to eq (example[:t_min]..example[:t_max])
