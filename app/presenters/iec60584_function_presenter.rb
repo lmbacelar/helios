@@ -1,4 +1,6 @@
 class Iec60584FunctionPresenter < FunctionPresenter
+  delegate :type, to: :function
+
   def a3
     format "%+.5E", function.a3
   end
@@ -13,13 +15,5 @@ class Iec60584FunctionPresenter < FunctionPresenter
 
   def a0
     format "%+.5E", function.a0
-  end
-
-  def show_link
-    h.link_to 'Details', function
-  end
-
-  def destroy_link
-    h.link_to 'Destroy', function, method: :delete, data: { confirm: 'Are you sure?' }
   end
 end
